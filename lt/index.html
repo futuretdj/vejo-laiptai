@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vėjo laiptai — 42 nauji namai, laiptais besileidžiantys į Nerį, Vilnius</title>
+<meta name="description" content="Terasomis besileidžiantis gyvenamasis namas Upės gatvėje, Vilniuje. 1–4 kambarių butai ir penthausai nuo 152 000 €. Išsirinkite butą 3D, pamatykite jo šviesą bet kuriuo paros metu ir užsiregistruokite apžiūrai.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vėjo laiptai, Vilnius — išsirinkite butą 3D">
+<meta property="og:description" content="42 namai, besileidžiantys į Nerį. 1–4 kambariai, nuo 152 000 €. Raktai 2027 m. IV ketv.">
+<meta property="og:image" content="https://futuretdj.github.io/vejo-laiptai/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="en" href="https://futuretdj.github.io/vejo-laiptai/">
+<link rel="alternate" hreflang="lt" href="https://futuretdj.github.io/vejo-laiptai/lt/">
+<meta name="theme-color" content="#ecebe6">
+<link rel="preload" href="../fonts/archivo-400-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/ibmplexsans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="../img/hero-m.webp" media="(max-width: 700px)">
+<link rel="preload" as="image" imagesrcset="../img/hero-1200.webp 1200w, ../img/hero-1800.webp 1800w" imagesizes="100vw" media="(min-width: 701px)">
+<script type="importmap">{"imports":{"three":"../lib/three.module.min.js"}}</script>
+<script>(function(){var d=document.documentElement;if(matchMedia('(max-width: 1023px), (pointer: coarse)').matches)d.classList.add('touch');d.classList.add('js')})()</script>
+<link rel="stylesheet" href="../vejo.css">
+</head>
+<body>
+<header class="nav" data-nav>
+  <div class="wrap nav__bar">
+    <a class="logo" href="#top" aria-label="Vėjo laiptai, pradžia"><svg viewBox="0 0 40 28" aria-hidden="true"><path d="M2 26V8h10v-6h12v10h14v14z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg><span>Vėjo laiptai</span></a>
+    <nav class="nav__links" aria-label="Pagrindinis meniu"><a href="#apartments">Butai</a><a href="#design">Interjeras</a><a href="#inside">Viduje</a><a href="#location">Vieta</a><a href="#price">Kaina ir paskola</a><a href="#progress">Statybos eiga</a></nav>
+    <a class="lang mono" href="../" hreflang="en" lang="en" aria-label="English">EN</a>
+    <a class="btn btn--sm nav__cta" href="#visit">Užsiregistruoti apžiūrai</a>
+    <button class="nav__menu" type="button" aria-expanded="false" aria-controls="sheet" data-menu data-open="Meniu" data-close="Uždaryti">Meniu</button>
+  </div>
+  <div class="sheet" id="sheet" data-sheet><a href="#apartments">Butai</a><a href="#design">Interjeras</a><a href="#inside">Viduje</a><a href="#location">Vieta</a><a href="#price">Kaina ir paskola</a><a href="#progress">Statybos eiga</a><a href="#visit">Užsiregistruoti apžiūrai</a><a class="sheet__lang mono" href="../" hreflang="en" lang="en">English</a></div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <picture class="hero__img">
+      <source media="(max-width: 700px)" srcset="../img/hero-m.webp">
+      <img src="../img/hero-1800.webp" srcset="../img/hero-1200.webp 1200w, ../img/hero-1800.webp 1800w" sizes="100vw" alt="Vilnius ir Neris saulėlydžio metu, vaizdas nuo dešiniojo kranto" fetchpriority="high" decoding="async">
+    </picture>
+    <div class="wrap hero__in">
+      <p class="tag mono">Upės gatvė · Šnipiškės · Vilnius</p>
+      <h1>42 namai, laiptais <span>į Nerį.</span></h1>
+      <p class="lead">Trys aštuonių, šešių ir keturių aukštų plytų korpusai: daugelis butų turi terasą ant žemesnio korpuso stogo ir vakaro saulę virš upės.</p>
+      <div class="row"><a class="btn" href="#apartments">Išsirinkti butą</a><a class="btn btn--ghost" href="#visit">Užsiregistruoti apžiūrai</a></div>
+    </div>
+    <dl class="facts wrap">
+      <div><dt>Butai</dt><dd data-count-free>— laisvų iš 42</dd></div>
+      <div><dt>Kambariai</dt><dd>1–4 + penthausai</dd></div>
+      <div><dt>Nuo</dt><dd data-from>€—</dd></div>
+      <div><dt>Raktai</dt><dd>Q4 2027</dd></div>
+      <div><dt>Energinė klasė</dt><dd>A++</dd></div>
+    </dl>
+  </section>
+
+  <!-- apartments selector -->
+  <section class="sec sec--apt" id="apartments" aria-labelledby="ap-h">
+    <div class="wrap head">
+      <p class="label mono">Butai</p>
+      <h2 id="ap-h">Išsirinkite langą. <em>Pro jį žiūrėsite jūs.</em></h2>
+      <p>Bakstelėkite bet kurį butą name ir pamatysite planą, terasą ir kainą. Žalia – laisvas, geltona – rezervuotas. Tempkite į šoną, kad apeitumėte namą.</p>
+    </div>
+    <div class="wrap apt">
+      <div class="stage" data-stage>
+        <div class="stage__load mono" data-stage-load>Kuriamas modelis…</div>
+        <div class="legend mono"><span><i class="free"></i>Laisvas</span><span><i class="reserved"></i>Rezervuotas</span><span><i class="sold"></i>Parduotas</span></div>
+        <div class="tip mono" data-tip hidden></div>
+        <div class="light" data-light>
+          <div class="light__top"><p class="mono">Šviesa <b data-light-time>17:30</b> <span data-light-sun></span></p>
+            <div class="seg seg--sm" role="radiogroup" aria-label="Metų laikas"><label><input type="radio" name="season" value="jun" checked><span>Birželis</span></label><label><input type="radio" name="season" value="mar"><span>Kovas</span></label><label><input type="radio" name="season" value="dec"><span>Gruodis</span></label></div></div>
+          <input type="range" min="5" max="23.5" step=".25" value="17.5" aria-label="Paros metas" data-light-range>
+        </div>
+        <aside class="unit" data-unit hidden aria-live="polite">
+          <button type="button" class="unit__x" data-unit-close aria-label="Uždaryti">×</button>
+          <p class="mono unit__st" data-u-status></p>
+          <h3 data-u-title></h3>
+          <p class="unit__sub" data-u-sub></p>
+          <dl class="unit__dl">
+            <div><dt>Plotas</dt><dd data-u-area></dd></div><div><dt>Lauke</dt><dd data-u-terr></dd></div>
+            <div><dt>Aukštas</dt><dd data-u-floor></dd></div><div><dt>Langai į</dt><dd data-u-or></dd></div>
+            <div><dt>Tiesioginė saulė</dt><dd data-u-sunh></dd></div><div><dt>Už m²</dt><dd data-u-ppm></dd></div>
+          </dl>
+          <p class="unit__price" data-u-price></p>
+          <p class="small muted" data-u-month></p>
+          <div class="row"><button class="btn" type="button" data-u-plan>Apžiūrėti 3D</button><button class="btn btn--ghost" type="button" data-u-visit>Užsiregistruoti apžiūrai</button></div>
+        </aside>
+      </div>
+      <div class="list">
+        <div class="filters" data-filters>
+          <div class="seg" role="group" aria-label="Kambariai"><button type="button" aria-pressed="false" data-rooms="1">1</button><button type="button" aria-pressed="false" data-rooms="2">2</button><button type="button" aria-pressed="false" data-rooms="3">3</button><button type="button" aria-pressed="false" data-rooms="4">4</button></div>
+          <label class="maxp"><span class="mono">Iki <b data-maxp-out>bet kokia kaina</b></span><input type="range" min="150000" max="560000" step="10000" value="560000" data-maxp aria-label="Didžiausia kaina"></label>
+          <label class="check"><input type="checkbox" data-onlyfree checked> Tik laisvi</label>
+        </div>
+        <p class="mono muted count" data-count></p>
+        <div class="tbl" role="table" aria-label="Butai">
+          <div class="tr th" role="row"><span role="columnheader">Nr.</span><span role="columnheader">Kambariai</span><span role="columnheader">m²</span><span role="columnheader">Aukštas</span><span role="columnheader">Kaina</span></div>
+          <div data-rows></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- interior design -->
+  <section class="sec sec--design" id="design" aria-labelledby="ds-h">
+    <div class="wrap design">
+      <div class="design__text">
+        <div class="head"><p class="label mono">Interjeras</p><h2 id="ds-h">Pavaikščiokite po savo butą. <em>Ir pritaikykite sau.</em></h2>
+        <p>Kiekvienas butas atsidaro kaip įrengtas 3D modelis, po kurį galima vaikščioti. Keiskite sienų spalvą kiekviename kambaryje, grindis, virtuvės fasadus ir stalviršį, vonios plyteles, vonią ar dušą, maišytuvus, šviestuvus ir baldus – ir iš karto matykite, kiek tai kainuoja.</p></div>
+        <ul class="dlist">
+          <li><b>6</b><span>sienų spalvos kiekvienam kambariui</span></li>
+          <li><b>4 + 4</b><span>grindys ir vonios plytelės</span></li>
+          <li><b>16</b><span>virtuvės deriniai</span></li>
+          <li><b>3</b><span>maišytuvų ir rankenėlių apdailos</span></li>
+          <li><b>4</b><span>šviestuvų tipai, diena ir vakaras</span></li>
+          <li><b>12</b><span>„Nendrė“ baldai iš Kauno</span></li>
+        </ul>
+        <p class="small muted">Mūsų interjero architektai jūsų pasirinkimus paverčia pilnu interjero projektu: brėžiniai, apšvietimo ir rozečių planai, fiksuota apdailos kaina. Įskaičiuota į kiekvieno buto kainą.</p>
+        <div class="row"><button class="btn" type="button" data-open-studio="walk">Pavaikščioti po 3 kambarių butą</button><button class="btn btn--ghost" type="button" data-open-studio="orbit">Planas 3D</button></div>
+      </div>
+      <button class="design__pic" type="button" data-open-studio="walk" aria-label="Atidaryti interjero studiją">
+        <picture><source media="(max-width: 700px)" srcset="../img/design-m.webp"><img src="../img/design-1600.webp" alt="3 kambarių butas interjero studijoje: svetainė su ąžuolo grindimis, sofa, valgomojo stalu ir miesto vaizdu pro grindų aukščio langus" loading="lazy" decoding="async"></picture>
+        <span class="design__play mono">3D · vaikščioti viduje</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- inside -->
+  <section class="sec" id="inside" aria-labelledby="in-h">
+    <div class="wrap head"><p class="label mono">Viduje</p><h2 id="in-h">2,85 m lubos, ąžuolo grindys, <em>langai iki grindų.</em></h2><p>Visi butai perduodami įrengti. Prieš tinkavimą pasirinkite vieną iš dviejų palečių arba imkite dalinę apdailą ir įsirenkite patys – 210 € pigiau už m².</p></div>
+    <div class="wrap finish">
+      <div class="finish__tabs" role="tablist" aria-label="Apdailos paletės">
+        <button role="tab" aria-selected="true" data-pal="smelis"><b>Smėlis</b><span>Baltas ąžuolas, šiltas tinkas, šlifuotas žalvaris</span></button>
+        <button role="tab" aria-selected="false" data-pal="akmuo"><b>Akmuo</b><span>Rūkytas ąžuolas, pilkas kalkakmenis, juodas plienas</span></button>
+      </div>
+      <ul class="gal" data-swipe data-gallery>
+        <li><button type="button" data-open="0"><img src="../img/living-800.webp" srcset="../img/living-800.webp 800w, ../img/living-1600.webp 1024w" sizes="(max-width: 1023px) 80vw, 40vw" alt="Šviesi svetainė su langais iki grindų" loading="lazy" decoding="async"></button><p class="mono">Svetainė, 3 kambarių butas</p></li>
+        <li><button type="button" data-open="1"><img src="../img/kitchen2-800.webp" srcset="../img/kitchen2-800.webp 800w, ../img/kitchen2-1600.webp 1024w" sizes="(max-width: 1023px) 80vw, 30vw" alt="Balta virtuvė su sala" loading="lazy" decoding="async"></button><p class="mono">Virtuvė su sala</p></li>
+        <li><button type="button" data-open="2"><img src="../img/bedroom2-800.webp" srcset="../img/bedroom2-800.webp 800w, ../img/bedroom2-1600.webp 960w" sizes="(max-width: 1023px) 80vw, 30vw" alt="Šviesus miegamasis su medinėmis grindimis" loading="lazy" decoding="async"></button><p class="mono">Miegamasis</p></li>
+        <li><button type="button" data-open="3"><img src="../img/bath-800.webp" srcset="../img/bath-800.webp 800w, ../img/bath-1600.webp 1024w" sizes="(max-width: 1023px) 80vw, 30vw" alt="Vonios kambarys su vonia ir šildomu rankšluosčių džiovintuvu" loading="lazy" decoding="async"></button><p class="mono">Vonios kambarys</p></li>
+        <li><button type="button" data-open="4"><img src="../img/living2-800.webp" srcset="../img/living2-800.webp 800w, ../img/living2-1600.webp 960w" sizes="(max-width: 1023px) 80vw, 30vw" alt="Svetainė su sofa ir foteliais" loading="lazy" decoding="async"></button><p class="mono">Penthauso svetainė</p></li>
+      </ul>
+      <div class="dots" data-dots-for="gal"></div>
+      <ul class="spec"><li><span>Lubos</span><b>2,85 m, penthausuose 3,2 m</b></li><li><span>Grindys</span><b>Trisluoksnis ąžuolas, 14 mm</b></li><li><span>Šildymas</span><b>Šilumos siurblys + grindinis</b></li><li><span>Vėdinimas</span><b>Rekuperacinis vėdinimas</b></li><li><span>Langai</span><b>Trigubo stiklo, medis ir aliuminis</b></li><li><span>Garso izoliacija</span><b>Plaukiojančios grindys, 55 dB sienos</b></li><li><span>Liftai</span><b>Du kiekviename korpuse, iki automobilių aikštelės</b></li><li><span>Energija</span><b>A++ klasė, saulės elektrinė ant stogų</b></li></ul>
+    </div>
+  </section>
+
+  <!-- location -->
+  <section class="sec sec--dark" id="location" aria-labelledby="lo-h">
+    <div class="wrap head"><p class="label mono">Vieta</p><h2 id="lo-h">Priešais – upė, <em>už tilto – senamiestis.</em></h2><p>Upės gatvė eina dešiniuoju Neries krantu tarp verslo dangoraižių ir Žvėryno. Laikas nurodytas pėsčiomis arba dviračiu nuo namo durų.</p></div>
+    <div class="wrap loc">
+      <ul class="times" data-times>
+        <li data-mode="walk"><b>2 min</b><span>Neries pakrantės takas</span></li>
+        <li data-mode="walk"><b>9 min</b><span>Baltasis tiltas ir parkas</span></li>
+        <li data-mode="walk"><b>14 min</b><span>Katedros aikštė</span></li>
+        <li data-mode="walk"><b>6 min</b><span>Pradinė mokykla ir darželis</span></li>
+        <li data-mode="walk"><b>4 min</b><span>„Rimi“, vaistinė, kepykla</span></li>
+        <li data-mode="bike"><b>11 min</b><span>Vilniaus universitetas</span></li>
+        <li data-mode="car"><b>18 min</b><span>Oro uostas</span></li>
+        <li data-mode="walk"><b>3 min</b><span>Autobusų ir troleibusų stotelė</span></li>
+      </ul>
+      <div class="loc__pics" data-swipe>
+        <figure><img src="../img/evening-800.webp" srcset="../img/evening-800.webp 800w, ../img/evening-1600.webp 1600w" sizes="(max-width: 1023px) 80vw, 33vw" alt="Vilnius ir Neris saulėlydžio metu" loading="lazy" decoding="async"><figcaption class="mono">Vakaras virš Neries</figcaption></figure>
+        <figure><img src="../img/oldtown-800.webp" srcset="../img/oldtown-800.webp 800w, ../img/oldtown-1600.webp 1600w" sizes="(max-width: 1023px) 80vw, 33vw" alt="Raudoni Vilniaus senamiesčio stogai" loading="lazy" decoding="async"><figcaption class="mono">Senamiestis, 14 min pėsčiomis</figcaption></figure>
+        <figure><img src="../img/embankment-800.webp" srcset="../img/embankment-800.webp 800w, ../img/embankment-1600.webp 1600w" sizes="(max-width: 1023px) 80vw, 33vw" alt="Pakrantės takas palei Nerį" loading="lazy" decoding="async"><figcaption class="mono">Pakrantės takas</figcaption></figure>
+      </div>
+      <div class="dots dots--light" data-dots-for="loc"></div>
+    </div>
+  </section>
+
+  <!-- price -->
+  <section class="sec" id="price" aria-labelledby="pr-h">
+    <div class="wrap grid2">
+      <div>
+        <div class="head"><p class="label mono">Kaina ir paskola</p><h2 id="pr-h">Kiek tai kainuoja <em>kas mėnesį.</em></h2><p>Apytikslis skaičiavimas pagal dabartinį EURIBOR ir įprastą banko maržą. Galutinę palūkanų normą nustato bankas; pardavimų komanda supažindins jus su trimis bankais, kurie jau žino šį projektą.</p></div>
+        <ol class="pay">
+          <li><b>€3,000</b><span>Rezervacija, butas laikomas 30 dienų</span></li>
+          <li><b>10%</b><span>Pasirašant preliminariąją sutartį</span></li>
+          <li><b>90%</b><span>Pas notarą gaunant raktus, 2027 m. IV ketv.</span></li>
+        </ol>
+      </div>
+      <form class="calc" data-calc onsubmit="return false">
+        <p class="mono muted" data-calc-for>Tipiniam 2 kambarių butui</p>
+        <div class="calc__row"><label for="c-price">Kaina</label><output data-o-price></output><input id="c-price" type="range" min="140000" max="560000" step="1000" value="198000"></div>
+        <div class="calc__row"><label for="c-down">Pradinis įnašas</label><output data-o-down></output><input id="c-down" type="range" min="15" max="60" step="1" value="20"></div>
+        <div class="calc__row"><label for="c-years">Terminas</label><output data-o-years></output><input id="c-years" type="range" min="10" max="35" step="1" value="30"></div>
+        <div class="calc__row"><label for="c-rate">Palūkanos (EURIBOR + marža)</label><output data-o-rate></output><input id="c-rate" type="range" min="2" max="6" step=".05" value="3.75"></div>
+        <div class="calc__out"><p class="mono">Mėnesio įmoka</p><p class="big" data-o-month>€—</p><p class="small muted" data-o-note></p></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- progress -->
+  <section class="sec sec--stone" id="progress" aria-labelledby="pg-h">
+    <div class="wrap head"><p class="label mono">Statybos</p><h2 id="pg-h">Kur esame <em>šį mėnesį.</em></h2><p>Atnaujinama kiekvieno mėnesio pirmąjį pirmadienį, su statybvietės kameros nuotraukomis.</p></div>
+    <div class="wrap">
+      <ol class="steps" data-steps>
+        <li class="done"><b>Leidimas</b><span>2025 kovas</span></li>
+        <li class="done"><b>Pamatai</b><span>2025 rugsėjis</span></li>
+        <li class="done"><b>A ir B karkasas</b><span>2026 birželis</span></li>
+        <li class="now"><b>C karkasas, stogai</b><span>2026 lapkritis</span><i style="--p:70%"></i></li>
+        <li><b>Fasadai ir langai</b><span>2027 balandis</span></li>
+        <li><b>Vidaus darbai</b><span>2027 rugsėjis</span></li>
+        <li><b>Raktai</b><span>Q4 2027</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- visit -->
+  <section class="sec" id="visit" aria-labelledby="vs-h">
+    <div class="wrap grid2">
+      <div>
+        <div class="head"><p class="label mono">Apsilankykite</p><h2 id="vs-h">Apžiūrėkite pavyzdinį butą <em>ir vaizdą.</em></h2><p>Pardavimų paviljone statybvietėje – įrengtas 3 kambarių butas abiem paletėmis ir liftas į C korpuso stogą. Šeštadieniais ir sekmadieniais 11–17, darbo dienomis – iš anksto susitarus.</p></div>
+        <dl class="contact">
+          <div><dt class="mono">Pardavimų paviljonas</dt><dd>Upės g. 21, Vilnius</dd></div>
+          <div><dt class="mono">Telefonas</dt><dd><a href="tel:+37060000000">+370 600 00000</a></dd></div>
+          <div><dt class="mono">El. paštas</dt><dd><a href="mailto:sales@vejo.example">sales@vejo.example</a></dd></div>
+        </dl>
+      </div>
+      <form class="vform" data-vform novalidate>
+        <p class="mono muted">Pasirinkite laiką</p>
+        <div class="vdays" data-vdays></div>
+        <div class="vslots" data-vslots></div>
+        <div class="f"><label for="v-unit">Jus dominantis butas <span class="muted">(nebūtina)</span></label><select id="v-unit" data-vunit><option value="">Dar nežinau</option></select></div>
+        <div class="f2"><div class="f"><label for="v-name">Vardas</label><input id="v-name" name="name" autocomplete="name" required><p class="err" hidden>Įrašykite vardą.</p></div>
+        <div class="f"><label for="v-tel">Telefonas</label><input id="v-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" required placeholder="+370"><p class="err" hidden>Įrašykite telefono numerį.</p></div></div>
+        <button class="btn btn--wide" type="submit" data-vsubmit>Užsiregistruoti apžiūrai</button>
+        <p class="small" role="status" data-vstatus></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-labelledby="fq-h">
+    <div class="wrap grid2">
+      <h2 id="fq-h" class="fq">Klausimai, <em>kuriuos užduoda pirmiausia.</em></h2>
+      <div class="faq">
+        <details><summary>Ar automobilio vieta įskaičiuota?</summary><p>Ne, požeminės vietos parduodamos atskirai už 19 000 €, su elektromobilio įkrovikliu – 900 € brangiau. 42 butams – 46 vietos, sandėliukai rūsyje nuo 3 500 €.</p></details>
+        <details><summary>Ką A++ reiškia mokesčiams?</summary><p>Oras-vanduo šilumos siurbliai, grindinis šildymas, rekuperacija ir trigubi stiklo paketai. 2 kambarių buto šildymas sausį turėtų kainuoti apie 35–45 € per mėnesį.</p></details>
+        <details><summary>Ar galiu pakeisti planą?</summary><p>Taip, kol jūsų aukšte nepastatytos sienos: nelaikančiųjų sienų perkėlimas ar panaikinimas – vieną kartą nemokamai, vėliau 450 € už pakeitimą. Virtuvės ir vonios lieka prie stovų.</p></details>
+        <details><summary>O jei statybos vėluos?</summary><p>Sutartyje nustatyta perdavimo data. Už kiekvieną vėlavimo mėnesį sumokame 0,5 % jau sumokėtos sumos, o po šešių mėnesių galite nutraukti sutartį ir atgauti visus pinigus.</p></details>
+        <details><summary>Kas vystytojas?</summary><p>Tai koncepcija: svetainė yra portfelio demonstracija. Namas, kainos ir žmonės išgalvoti.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <p class="foot__logo">Vėjo laiptai</p>
+    <p>Upės g. 21, Vilnius · <a href="tel:+37060000000">+370 600 00000</a> · <a href="mailto:sales@vejo.example">sales@vejo.example</a></p>
+    <p class="mono muted">Pagrindinė nuotrauka: Vilnius saulėlydžio metu, Wikimedia Commons. Koncepcinė svetainė. Nuotraukos iš Wikimedia Commons ir rawpixel (<a href="../credits.html">autoriai</a>). 3D modelis piešiamas naršyklėje.</p>
+  </div>
+</footer>
+
+<nav class="bar" data-bar aria-label="Greiti veiksmai"><span class="bar__t mono" data-bar-t>42 butai</span><a class="btn btn--sm btn--light" href="#apartments" data-bar-btn>Rinktis</a></nav>
+
+<div class="studio" data-studio hidden role="dialog" aria-modal="true" aria-labelledby="st-h" data-mode="orbit">
+  <div class="st-stage" data-st-stage>
+    <div class="st-load mono" data-st-load data-t="st_load"></div>
+    <div class="st-bar">
+      <div class="seg seg--dark" role="radiogroup" data-t-label="st_walk"><label><input type="radio" name="stmode" value="orbit" checked><span data-t="st_overview"></span></label><label><input type="radio" name="stmode" value="walk"><span data-t="st_walk"></span></label></div>
+      <div class="seg seg--dark" role="radiogroup" data-t-label="g_time"><label><input type="radio" name="sttime" value="day" checked><span data-t="st_day"></span></label><label><input type="radio" name="sttime" value="eve"><span data-t="st_eve"></span></label></div>
+    </div>
+    <button type="button" class="st-x" data-st-close data-t-label="st_close">×</button>
+    <canvas class="st-mini" data-st-mini data-t-label="minimap"></canvas>
+    <p class="st-room mono" data-st-room aria-live="polite"></p>
+    <p class="st-hint mono" data-st-hint></p>
+    <div class="st-joy" data-st-joy aria-hidden="true"><span></span></div>
+  </div>
+  <aside class="st-panel" data-st-panel>
+    <div class="st-head">
+      <button type="button" class="st-grab" data-st-grab aria-label="Pasirinkimai"></button>
+      <div><p class="mono muted" data-st-sub></p><h3 id="st-h" data-st-title></h3></div>
+      <div class="st-total"><span class="mono muted" data-t="st_total"></span><b data-st-total></b><small class="mono muted" data-st-parts></small></div>
+    </div>
+    <div class="st-tabs" role="tablist" data-st-tabs></div>
+    <div class="st-body" data-st-body></div>
+    <div class="st-foot"><button type="button" class="btn btn--ghost btn--sm" data-st-sum data-t="st_sum"></button><button type="button" class="btn btn--sm" data-st-book data-t="st_book"></button></div>
+  </aside>
+</div>
+<div class="lb" data-lb hidden role="dialog" aria-modal="true" aria-label="Nuotraukos"><div class="lb__top"><span class="mono" data-lb-count></span><button type="button" class="lb__x" data-lb-close aria-label="Uždaryti">×</button></div><ul class="lb__track" data-lb-track></ul><p class="lb__cap" data-lb-cap></p></div>
+<div class="toast" data-toast role="status" aria-live="polite"></div>
+<script type="module" src="../vejo.js"></script>
+</body>
+</html>

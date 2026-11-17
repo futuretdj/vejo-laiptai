@@ -188,7 +188,7 @@ export function createEstate() {
   Object.assign(pk.shadow.camera, { left: -9, right: 9, top: 9, bottom: -9, near: 1, far: 50 }); pk.shadow.bias = -.0005; pk.shadow.normalBias = .02; pk.shadow.radius = 4;
   P.add(pk, pk.target, new THREE.HemisphereLight(0xffffff, 0xcfc6b8, .55));
   const loader = new THREE.TextureLoader();
-  const oak = loader.load('tex/oak_d1.webp', t => { t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(.45, .45); t.anisotropy = 8; kick(); });
+  const oak = loader.load(new URL('./tex/oak_d1.webp', import.meta.url).href, t => { t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(.45, .45); t.anisotropy = 8; kick(); });
   const PM = {
     floor: new THREE.MeshStandardMaterial({ map: oak, roughness: .55 }),
     tile: new THREE.MeshStandardMaterial({ color: 0xd8d6d0, roughness: .4 }),
@@ -306,7 +306,7 @@ export function createEstate() {
     const a = pcam.aspect; const d = (planSize * 2.25 + 3) / Math.min(1.25, Math.max(.6, a)) * pzoom;
     pcam.position.set(Math.sin(pyaw) * Math.cos(ptilt) * d, Math.sin(ptilt) * d, Math.cos(pyaw) * Math.cos(ptilt) * d); pcam.lookAt(0, -.4, 0);
   }
-  function size() { if (!host) return; const r = host.getBoundingClientRect(); if (!r.width) return; renderer.setSize(r.width, r.height, false); cam.aspect = pcam.aspect = r.width / r.height; cam.updateProjectionMatrix(); pcam.updateProjectionMatrix(); needs = true; }
+  function size() { if (!host || mode === 'ext') return; const r = host.getBoundingClientRect(); if (!r.width) return; renderer.setSize(r.width, r.height, false); cam.aspect = pcam.aspect = r.width / r.height; cam.updateProjectionMatrix(); pcam.updateProjectionMatrix(); needs = true; }
   let last = 0, onFrame = null;
   function loop(t) {
     const dt = Math.min(.05, (t - last) / 1000 || .016); last = t; let moving = false;
@@ -315,6 +315,7 @@ export function createEstate() {
       else if (host?.dataset.spin && !RM && mode === 'plan') { auto = Math.min(1, auto + dt * .4); pyaw += .05 * dt * auto; moving = true; }
     }
     if (zoomT) { moving = true; const k = Math.min(1, (t - zoomT.t0) / 700), e = 1 - (1 - k) ** 3; dist = zoomT.a + (zoomT.b - zoomT.a) * e; target.lerpVectors(zoomT.ta, zoomT.tb, e); if (k >= 1) zoomT = null; }
+    if (mode === 'ext') { running = false; return; }
     if (moving || needs) {
       if (mode === 'building') { yaw = THREE.MathUtils.clamp(yaw, -1.15, 1.15); placeCam(); renderer.render(S, cam); }
       else { placePcam(); renderer.render(P, pcam); }
@@ -362,7 +363,9 @@ export function createEstate() {
   const io = new IntersectionObserver(es => { for (const e of es) if (e.target === host) { visible = e.isIntersecting; if (visible) kick(); } }, { rootMargin: '60px' });
   let lw = 0, lh = 0; const ro = new ResizeObserver(es => { const r = es[0].contentRect; if (Math.abs(r.width - lw) < 1 && Math.abs(r.height - lh) < 1) return; lw = r.width; lh = r.height; size(); kick(); });
   function mount(el, m) {
-    mode = m; if (host !== el) { if (host) { io.unobserve(host); ro.unobserve(host); } host = el; el.prepend(canvas); io.observe(el); ro.observe(el); lw = lh = 0; }
+    if (m === 'ext') { mode = 'ext'; return canvas; }
+    mode = m; if (host !== el) { if (host) { io.unobserve(host); ro.unobserve(host); } host = el; io.observe(el); ro.observe(el); lw = lh = 0; }
+    if (canvas.parentNode !== el) el.prepend(canvas); canvas.style.touchAction = 'pan-y';
     visible = true; vel = 0; size(); renderer.shadowMap.needsUpdate = true; kick();
     if (m === 'building' && !warmed) { warmed = true; placeCam(); renderer.render(S, cam); }
   }
@@ -373,7 +376,7 @@ export function createEstate() {
   (window.requestIdleCallback || (f => setTimeout(f, 400)))(() => { try { renderer.compile(S, cam); } catch {} });
 
   return {
-    mount, kick, setSun, sunAt, sunHours, focusUnit, project, unitScreen, buildPlan,
+    renderer, mount, kick, setSun, sunAt, sunHours, focusUnit, project, unitScreen, buildPlan,
     get mode() { return mode; },
     set onFrame(f) { onFrame = f; }, set onPick(f) { onPick = f; }, set onHover(f) { onHover = f; },
     overlays(on) { ovOn = on; paintOverlays(); },

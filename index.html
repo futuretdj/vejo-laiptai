@@ -11,6 +11,8 @@
 <meta property="og:image" content="https://futuretdj.github.io/vejo-laiptai/share.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="en" href="https://futuretdj.github.io/vejo-laiptai/">
+<link rel="alternate" hreflang="lt" href="https://futuretdj.github.io/vejo-laiptai/lt/">
 <meta name="theme-color" content="#ecebe6">
 <link rel="preload" href="fonts/archivo-400-800-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/ibmplexsans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -24,11 +26,12 @@
 <header class="nav" data-nav>
   <div class="wrap nav__bar">
     <a class="logo" href="#top" aria-label="Vėjo laiptai, home"><svg viewBox="0 0 40 28" aria-hidden="true"><path d="M2 26V8h10v-6h12v10h14v14z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg><span>Vėjo laiptai</span></a>
-    <nav class="nav__links" aria-label="Main"><a href="#apartments">Apartments</a><a href="#inside">Inside</a><a href="#location">Location</a><a href="#price">Price &amp; mortgage</a><a href="#progress">Progress</a></nav>
+    <nav class="nav__links" aria-label="Main"><a href="#apartments">Apartments</a><a href="#design">Interior design</a><a href="#inside">Inside</a><a href="#location">Location</a><a href="#price">Price &amp; mortgage</a><a href="#progress">Progress</a></nav>
+    <a class="lang mono" href="lt/" hreflang="lt" lang="lt" aria-label="Lietuviškai">LT</a>
     <a class="btn btn--sm nav__cta" href="#visit">Book a viewing</a>
-    <button class="nav__menu" type="button" aria-expanded="false" aria-controls="sheet" data-menu>Menu</button>
+    <button class="nav__menu" type="button" aria-expanded="false" aria-controls="sheet" data-menu data-open="Menu" data-close="Close">Menu</button>
   </div>
-  <div class="sheet" id="sheet" data-sheet><a href="#apartments">Apartments</a><a href="#inside">Inside</a><a href="#location">Location</a><a href="#price">Price &amp; mortgage</a><a href="#progress">Progress</a><a href="#visit">Book a viewing</a></div>
+  <div class="sheet" id="sheet" data-sheet><a href="#apartments">Apartments</a><a href="#design">Interior design</a><a href="#inside">Inside</a><a href="#location">Location</a><a href="#price">Price &amp; mortgage</a><a href="#progress">Progress</a><a href="#visit">Book a viewing</a><a class="sheet__lang mono" href="lt/" hreflang="lt" lang="lt">Lietuviškai</a></div>
 </header>
 
 <main id="top">
@@ -99,6 +102,31 @@
     </div>
   </section>
 
+
+  <!-- interior design -->
+  <section class="sec sec--design" id="design" aria-labelledby="ds-h">
+    <div class="wrap design">
+      <div class="design__text">
+        <div class="head"><p class="label mono">Interior design</p><h2 id="ds-h">Walk through your flat. <em>Then make it yours.</em></h2>
+        <p>Every apartment opens as a furnished 3D model you can walk around in. Change the paint in each room, the floors, kitchen fronts and worktop, bathroom tiles, bath or shower, taps, lights and furniture, and see what your choices cost as you go.</p></div>
+        <ul class="dlist">
+          <li><b>6</b><span>paint colours, room by room</span></li>
+          <li><b>4 + 4</b><span>floors and bathroom tiles</span></li>
+          <li><b>16</b><span>kitchen combinations</span></li>
+          <li><b>3</b><span>finishes for taps and handles</span></li>
+          <li><b>4</b><span>kinds of light, day and evening</span></li>
+          <li><b>12</b><span>furniture pieces by Nendrė, Kaunas</span></li>
+        </ul>
+        <p class="small muted">Our interior architects turn your choices into a full design project: drawings, lighting and socket plans, and a fixed price for the finishes. Included with every apartment.</p>
+        <div class="row"><button class="btn" type="button" data-open-studio="walk">Walk inside a 3-room flat</button><button class="btn btn--ghost" type="button" data-open-studio="orbit">See the floor plan in 3D</button></div>
+      </div>
+      <button class="design__pic" type="button" data-open-studio="walk" aria-label="Open the design studio">
+        <picture><source media="(max-width: 700px)" srcset="img/design-m.webp"><img src="img/design-1600.webp" alt="Inside a 3-room flat in the design studio: living room with oak floor, sofa, dining table and the city through floor-to-ceiling windows" loading="lazy" decoding="async"></picture>
+        <span class="design__play mono">3D · walk inside</span>
+      </button>
+    </div>
+  </section>
+
   <!-- inside -->
   <section class="sec" id="inside" aria-labelledby="in-h">
     <div class="wrap head"><p class="label mono">Inside</p><h2 id="in-h">2.85 m ceilings, oak floors, <em>windows to the floor.</em></h2><p>Every flat is handed over finished. Choose one of two palettes before the plaster goes on, or keep the shell and do it yourself for €210 less per m².</p></div>
@@ -115,7 +143,7 @@
         <li><button type="button" data-open="4"><img src="img/living2-800.webp" srcset="img/living2-800.webp 800w, img/living2-1600.webp 960w" sizes="(max-width: 1023px) 80vw, 30vw" alt="Living room with sofa and armchairs" loading="lazy" decoding="async"></button><p class="mono">Penthouse lounge</p></li>
       </ul>
       <div class="dots" data-dots-for="gal"></div>
-      <ul class="spec" data-spec></ul>
+      <ul class="spec"><li><span>Ceilings</span><b>2.85 m, 3.2 m in penthouses</b></li><li><span>Floors</span><b>Engineered oak, 14 mm</b></li><li><span>Heating</span><b>Heat pump + underfloor</b></li><li><span>Air</span><b>Heat-recovery ventilation</b></li><li><span>Windows</span><b>Triple glazed, timber-aluminium</b></li><li><span>Sound</span><b>Floating screed, 55 dB walls</b></li><li><span>Lifts</span><b>Two per block, to the car park</b></li><li><span>Energy</span><b>Class A++, solar on roofs</b></li></ul>
     </div>
   </section>
 
@@ -228,18 +256,29 @@
 
 <nav class="bar" data-bar aria-label="Quick actions"><span class="bar__t mono" data-bar-t>42 apartments</span><a class="btn btn--sm btn--light" href="#apartments" data-bar-btn>Choose</a></nav>
 
-<div class="plan" data-plan hidden role="dialog" aria-modal="true" aria-labelledby="pl-h">
-  <div class="plan__stage" data-plan-stage><div class="plan__labels" data-plan-labels></div></div>
-  <div class="plan__side">
-    <div class="plan__top"><div><p class="mono muted" data-pl-sub></p><h3 id="pl-h" data-pl-title></h3></div><button type="button" class="plan__x" data-plan-close aria-label="Close">×</button></div>
-    <ul class="rooms" data-pl-rooms></ul>
-    <div class="plan__ctl">
-      <label class="check"><input type="checkbox" data-pl-furn checked> Show furniture</label>
-      <div class="seg seg--sm" role="radiogroup" aria-label="View"><label><input type="radio" name="pv" value="3d" checked><span>3D</span></label><label><input type="radio" name="pv" value="top"><span>From above</span></label></div>
+<div class="studio" data-studio hidden role="dialog" aria-modal="true" aria-labelledby="st-h" data-mode="orbit">
+  <div class="st-stage" data-st-stage>
+    <div class="st-load mono" data-st-load data-t="st_load"></div>
+    <div class="st-bar">
+      <div class="seg seg--dark" role="radiogroup" data-t-label="st_walk"><label><input type="radio" name="stmode" value="orbit" checked><span data-t="st_overview"></span></label><label><input type="radio" name="stmode" value="walk"><span data-t="st_walk"></span></label></div>
+      <div class="seg seg--dark" role="radiogroup" data-t-label="g_time"><label><input type="radio" name="sttime" value="day" checked><span data-t="st_day"></span></label><label><input type="radio" name="sttime" value="eve"><span data-t="st_eve"></span></label></div>
     </div>
-    <p class="plan__price" data-pl-price></p>
-    <div class="row"><button class="btn" type="button" data-pl-visit>Book a viewing</button><button class="btn btn--ghost" type="button" data-pl-pdf>Download plan</button></div>
+    <button type="button" class="st-x" data-st-close data-t-label="st_close">×</button>
+    <canvas class="st-mini" data-st-mini data-t-label="minimap"></canvas>
+    <p class="st-room mono" data-st-room aria-live="polite"></p>
+    <p class="st-hint mono" data-st-hint></p>
+    <div class="st-joy" data-st-joy aria-hidden="true"><span></span></div>
   </div>
+  <aside class="st-panel" data-st-panel>
+    <div class="st-head">
+      <button type="button" class="st-grab" data-st-grab aria-label="Options"></button>
+      <div><p class="mono muted" data-st-sub></p><h3 id="st-h" data-st-title></h3></div>
+      <div class="st-total"><span class="mono muted" data-t="st_total"></span><b data-st-total></b><small class="mono muted" data-st-parts></small></div>
+    </div>
+    <div class="st-tabs" role="tablist" data-st-tabs></div>
+    <div class="st-body" data-st-body></div>
+    <div class="st-foot"><button type="button" class="btn btn--ghost btn--sm" data-st-sum data-t="st_sum"></button><button type="button" class="btn btn--sm" data-st-book data-t="st_book"></button></div>
+  </aside>
 </div>
 <div class="lb" data-lb hidden role="dialog" aria-modal="true" aria-label="Photos"><div class="lb__top"><span class="mono" data-lb-count></span><button type="button" class="lb__x" data-lb-close aria-label="Close">×</button></div><ul class="lb__track" data-lb-track></ul><p class="lb__cap" data-lb-cap></p></div>
 <div class="toast" data-toast role="status" aria-live="polite"></div>
