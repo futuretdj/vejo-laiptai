@@ -6,7 +6,7 @@ const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const TOUCH = document.documentElement.classList.contains('touch');
 const TABS = ['style', 'walls', 'floor', 'kitchen', 'bath', 'light', 'furniture'];
-const CAT2TAB = { sofa: 'furniture', bed: 'furniture', table: 'furniture', ctable: 'furniture', rug: 'furniture', side: 'furniture', desk: 'furniture', plant: 'furniture', kitchen: 'kitchen', island: 'kitchen', wardrobe: 'kitchen', bath: 'bath', shower: 'bath', wc: 'bath', sink: 'bath' };
+const CAT2TAB = { sofa: 'furniture', bed: 'furniture', table: 'furniture', ctable: 'furniture', rug: 'furniture', side: 'furniture', desk: 'furniture', plant: 'furniture', armchair: 'furniture', kitchen: 'kitchen', island: 'kitchen', wardrobe: 'kitchen', bath: 'bath', shower: 'bath', wc: 'bath', sink: 'bath' };
 
 export function initStudio({ getEstate, toast, onBook, onClose }) {
   const root = $('[data-studio]'), stage = $('[data-st-stage]'), body = $('[data-st-body]'), tabsEl = $('[data-st-tabs]'), panel = $('[data-st-panel]');
@@ -37,7 +37,7 @@ export function initStudio({ getEstate, toast, onBook, onClose }) {
       h = `<div class="stg"><p class="stg__t mono">${t('g_time')}</p><div class="seg seg--sm"><button type="button" data-k="evening" data-v="0" aria-pressed="${!D.evening}">${t('st_day')}</button><button type="button" data-k="evening" data-v="1" aria-pressed="${D.evening}">${t('st_eve')}</button></div></div>`
         + chips(lr, room) + grp(`${t('g_light')} · ${roomName(rooms[room])}`, opts('light', D.light[room])) + `<button type="button" class="link" data-all="light">${t('g_all')}</button>`; }
     if (tab === 'furniture') h = `<label class="check stg"><input type="checkbox" data-furnish ${D.furnish ? 'checked' : ''}> ${t('g_furnish')}</label>`
-      + grp(t('g_sofa'), opts('sofa', D.sofa)) + grp(t('g_fabric'), opts('fabric', D.fabric)) + grp(t('g_wood'), opts('wood', D.wood)) + grp(t('g_table'), opts('table', D.table)) + grp(t('g_rug'), opts('rug', D.rug));
+      + grp(t('g_sofa'), opts('sofa', D.sofa)) + grp(t('g_fabric'), opts('fabric', D.fabric)) + grp(t('g_chair'), opts('chair', D.chair || 'leather')) + grp(t('g_wood'), opts('wood', D.wood)) + grp(t('g_table'), opts('table', D.table)) + grp(t('g_rug'), opts('rug', D.rug));
     body.innerHTML = h; total();
   }
   const hasBath = () => I.unit && ['T2', 'T3', 'P4'].includes(I.unit.type);

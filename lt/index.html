@@ -26,12 +26,12 @@
 <header class="nav" data-nav>
   <div class="wrap nav__bar">
     <a class="logo" href="#top" aria-label="Vėjo laiptai, pradžia"><svg viewBox="0 0 40 28" aria-hidden="true"><path d="M2 26V8h10v-6h12v10h14v14z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg><span>Vėjo laiptai</span></a>
-    <nav class="nav__links" aria-label="Pagrindinis meniu"><a href="#apartments">Butai</a><a href="#design">Interjeras</a><a href="#inside">Viduje</a><a href="#location">Vieta</a><a href="#price">Kaina ir paskola</a><a href="#progress">Statybos eiga</a></nav>
+    <nav class="nav__links" aria-label="Pagrindinis meniu"><a href="#apartments">Butai</a><a href="#plans">Planai</a><a href="#design">Interjeras</a><a href="#inside">Viduje</a><a href="#location">Vieta</a><a href="#price">Kaina ir paskola</a><a href="#progress">Statybos eiga</a></nav>
     <a class="lang mono" href="../" hreflang="en" lang="en" aria-label="English">EN</a>
     <a class="btn btn--sm nav__cta" href="#visit">Užsiregistruoti apžiūrai</a>
     <button class="nav__menu" type="button" aria-expanded="false" aria-controls="sheet" data-menu data-open="Meniu" data-close="Uždaryti">Meniu</button>
   </div>
-  <div class="sheet" id="sheet" data-sheet><a href="#apartments">Butai</a><a href="#design">Interjeras</a><a href="#inside">Viduje</a><a href="#location">Vieta</a><a href="#price">Kaina ir paskola</a><a href="#progress">Statybos eiga</a><a href="#visit">Užsiregistruoti apžiūrai</a><a class="sheet__lang mono" href="../" hreflang="en" lang="en">English</a></div>
+  <div class="sheet" id="sheet" data-sheet><a href="#apartments">Butai</a><a href="#plans">Planai</a><a href="#design">Interjeras</a><a href="#inside">Viduje</a><a href="#location">Vieta</a><a href="#price">Kaina ir paskola</a><a href="#progress">Statybos eiga</a><a href="#visit">Užsiregistruoti apžiūrai</a><a class="sheet__lang mono" href="../" hreflang="en" lang="en">English</a></div>
 </header>
 
 <main id="top">
@@ -77,6 +77,7 @@
           <p class="mono unit__st" data-u-status></p>
           <h3 data-u-title></h3>
           <p class="unit__sub" data-u-sub></p>
+          <button type="button" class="unit__lay" data-u-layout></button>
           <dl class="unit__dl">
             <div><dt>Plotas</dt><dd data-u-area></dd></div><div><dt>Lauke</dt><dd data-u-terr></dd></div>
             <div><dt>Aukštas</dt><dd data-u-floor></dd></div><div><dt>Langai į</dt><dd data-u-or></dd></div>
@@ -102,6 +103,16 @@
     </div>
   </section>
 
+
+  <!-- layouts -->
+  <section class="sec sec--plans" id="plans" aria-labelledby="pl-h">
+    <div class="wrap head"><p class="label mono">Planai</p><h2 id="pl-h">Keturi planai, <em>nubraižyti masteliu.</em></h2><p>Kiekviena patalpa su grynuoju plotu, durys, langai ir baldų išdėstymas, kuris tikrai telpa. Tuos pačius planus galite apeiti 3D.</p></div>
+    <div class="wrap plans">
+      <div class="plans__tabs" role="tablist" data-pl-tabs></div>
+      <div class="plans__body"><button type="button" class="plans__fig" data-pl-fig aria-label="Atidaryti planą visu dydžiu"></button><div class="plans__info" data-pl-info></div></div>
+    </div>
+  </section>
+  <div class="plbox" data-plbox hidden role="dialog" aria-modal="true" aria-label="Planas"><button type="button" class="plbox__x" data-plbox-x aria-label="Uždaryti">×</button><div class="plbox__in" data-plbox-in></div></div>
 
   <!-- interior design -->
   <section class="sec sec--design" id="design" aria-labelledby="ds-h">

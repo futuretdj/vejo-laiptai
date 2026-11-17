@@ -41,6 +41,9 @@ const S = {
     hint_walk_touch: 'Drag to look around · joystick to walk · tap the floor to go there · tap anything to change it',
     hint_walk_mouse: 'Drag to look · WASD or arrows to walk · click the floor to go there · click anything to change it',
     hint_orbit: 'Drag to turn · pinch or scroll to zoom · tap a wall, floor or furniture to change it',
+    g_chair: 'Armchair', it_armchair: 'Armchair', chair_cognac: 'Cognac leather', chair_leather: 'Black leather', chair_boucle: 'Bouclé', chair_moss: 'Moss velvet', chair_ink: 'Ink linen',
+    pl_terrace: 'Terrace', pl_balcony: 'Balcony', pl_aria: 'Floor plan, {t}', pl_free: '{n} free · from {p}', pl_none: 'All sold, join the waiting list', pl_show: 'Show free ones', pl_walk: 'Walk inside in 3D',
+    pl_total: 'Total area', pl_out: 'Outdoor', pl_dims: 'Footprint {w} × {d} m', pl_zoom: 'Tap the plan to enlarge', pl_net: 'Net room areas', u_layout: 'Layout · tap to enlarge',
     sel_item: 'Selected: {n}', it_sofa: 'Sofa', it_bed: 'Bed', it_table: 'Dining table', it_ctable: 'Coffee table', it_rug: 'Rug', it_side: 'Bedside table', it_desk: 'Desk', it_plant: 'Plant', it_kitchen: 'Kitchen', it_island: 'Kitchen island', it_wardrobe: 'Built-in wardrobe', it_bath: 'Bath', it_shower: 'Shower', it_wc: 'WC', it_sink: 'Vanity & basin',
     rooms_label: 'Room', area: '{a} m²', minimap: 'Floor plan: tap a room to go there', open_studio: 'Open the design studio'
   },
@@ -81,6 +84,9 @@ const S = {
     hint_walk_touch: 'Braukite, kad apsidairytumėte · vairalazde vaikščiokite · bakstelėkite grindis, kad nueitumėte · bakstelėkite daiktą, kad jį pakeistumėte',
     hint_walk_mouse: 'Tempkite, kad apsidairytumėte · WASD arba rodyklės – vaikščioti · spustelėkite grindis, kad nueitumėte · spustelėkite daiktą, kad pakeistumėte',
     hint_orbit: 'Tempkite, kad pasuktumėte · suimkite arba slinkite, kad priartintumėte · bakstelėkite sieną, grindis ar baldą, kad pakeistumėte',
+    g_chair: 'Fotelis', it_armchair: 'Fotelis', chair_cognac: 'Konjako spalvos oda', chair_leather: 'Juoda oda', chair_boucle: 'Bouclé audinys', chair_moss: 'Samanų veliūras', chair_ink: 'Tamsus linas',
+    pl_terrace: 'Terasa', pl_balcony: 'Balkonas', pl_aria: 'Buto planas, {t}', pl_free: 'Laisvų: {n} · nuo {p}', pl_none: 'Visi parduoti, užsirašykite į eilę', pl_show: 'Rodyti laisvus', pl_walk: 'Pavaikščioti viduje 3D',
+    pl_total: 'Bendras plotas', pl_out: 'Lauke', pl_dims: 'Matmenys {w} × {d} m', pl_zoom: 'Bakstelėkite planą, kad padidintumėte', pl_net: 'Patalpų grynieji plotai', u_layout: 'Planas · bakstelėkite, kad padidintumėte',
     sel_item: 'Pasirinkta: {n}', it_sofa: 'Sofa', it_bed: 'Lova', it_table: 'Valgomojo stalas', it_ctable: 'Kavos staliukas', it_rug: 'Kilimas', it_side: 'Naktinis staliukas', it_desk: 'Rašomasis stalas', it_plant: 'Augalas', it_kitchen: 'Virtuvė', it_island: 'Virtuvės sala', it_wardrobe: 'Įmontuota spinta', it_bath: 'Vonia', it_shower: 'Dušas', it_wc: 'WC', it_sink: 'Spintelė ir praustuvas',
     rooms_label: 'Kambarys', area: '{a} m²', minimap: 'Planas: bakstelėkite kambarį, kad ten nueitumėte', open_studio: 'Atidaryti interjero studiją'
   }

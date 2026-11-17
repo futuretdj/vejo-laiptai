@@ -26,13 +26,14 @@ export const OPTIONS = {
   metal: { chrome: '#d9d9d9', black: '#1c1c1c', brass: '#b48f55' },
   light: { spots: '#f5f1e8', globe: '#f6f2ea', cone: '#2b2b2b', linear: '#8a8a8a' },
   sofa: { debesis: '#c49a6c', pilis: '#d9cfbd' }, table: { rect: '#c49a6c', round: '#c49a6c' },
+  chair: { cognac: '#8a4f2c', leather: '#26211e', boucle: '#e4ddd0', moss: '#5f6b4e', ink: '#2f3b4b' },
   rug: { wool: '#e7dfd2', stripe: '#d8cdbb', none: '#ffffff' }, wet: { bath: '#f8f8f6', shower: '#dfe9ee' }
 };
 export const STYLES = {
-  smelis: { paint: 'chalk', floor: 'oak', tile: 'porcelain', wood: 'oak', fabric: 'oat', fronts: 'white', worktop: 'quartz', metal: 'brass', light: 'globe', rug: 'wool', sofa: 'debesis', table: 'rect' },
-  akmuo: { paint: 'stone', floor: 'smoked', tile: 'slate', wood: 'walnut', fabric: 'charcoal', fronts: 'navy', worktop: 'black', metal: 'black', light: 'cone', rug: 'stripe', sofa: 'pilis', table: 'rect' },
-  miskas: { paint: 'sage', floor: 'chevron', tile: 'zellige', wood: 'ash', fabric: 'moss', fronts: 'sage', worktop: 'oak', metal: 'brass', light: 'globe', rug: 'stripe', sofa: 'debesis', table: 'round' },
-  molis: { paint: 'clay', floor: 'micro', tile: 'terrazzo', wood: 'walnut', fabric: 'rust', fronts: 'oak', worktop: 'terrazzo', metal: 'black', light: 'linear', rug: 'wool', sofa: 'pilis', table: 'round' }
+  smelis: { paint: 'chalk', floor: 'oak', tile: 'porcelain', wood: 'oak', fabric: 'oat', fronts: 'white', worktop: 'quartz', metal: 'brass', light: 'globe', rug: 'wool', sofa: 'debesis', table: 'rect' , chair: 'cognac' },
+  akmuo: { paint: 'stone', floor: 'smoked', tile: 'slate', wood: 'walnut', fabric: 'charcoal', fronts: 'navy', worktop: 'black', metal: 'black', light: 'cone', rug: 'stripe', sofa: 'pilis', table: 'rect' , chair: 'leather' },
+  miskas: { paint: 'sage', floor: 'chevron', tile: 'zellige', wood: 'ash', fabric: 'moss', fronts: 'sage', worktop: 'oak', metal: 'brass', light: 'globe', rug: 'stripe', sofa: 'debesis', table: 'round' , chair: 'boucle' },
+  molis: { paint: 'clay', floor: 'micro', tile: 'terrazzo', wood: 'walnut', fabric: 'rust', fronts: 'oak', worktop: 'terrazzo', metal: 'black', light: 'linear', rug: 'wool', sofa: 'pilis', table: 'round' , chair: 'ink' }
 };
 const UP = { floor: { oak: 0, chevron: 28, smoked: 12, micro: 45 }, tile: { porcelain: 0, terrazzo: 85, zellige: 140, slate: 60 }, fronts: { white: 0, sage: 650, navy: 650, oak: 1900 }, worktop: { quartz: 0, black: 350, oak: 800, terrazzo: 1200 }, metal: { chrome: 0, black: 280, brass: 520 }, light: { spots: 0, globe: 240, cone: 280, linear: 320 } };
 const FURN = { sofa: { debesis: 3900, pilis: 3400 }, bed: 2690, ctable: 890, table: 1290, chair: 390, desk: 980, side: 340, rug: 690, lamp: 420, art: 180 };
@@ -126,13 +127,17 @@ export function createInterior(renderer) {
       if (/glass|shade|bulb|globe/i.test(m.name + o.name)) { o.material = M.opal; o.castShadow = false; } });
     const b = new THREE.Box3().setFromObject(s), sz = b.getSize(new THREE.Vector3()), c = b.getCenter(new THREE.Vector3());
     s.position.set(-c.x, -b.min.y, -c.z); const w = new THREE.Group(); w.add(s); w.userData.size = sz; return w; }).catch(() => null));
+  function applyChair() { const m = M.chair; if (!m) return; const v = D.chair || 'leather';
+    if (v === 'leather') { m.map = M.chairMap; m.color.set(0xffffff); m.roughness = M.chairRough; } else { m.map = null; m.color.set(OPTIONS.chair[v]); m.roughness = v === 'cognac' ? .5 : .92; }
+    m.needsUpdate = true; kick(); }
   let MQ = null; // models requested while a builder runs: {id, x, y, z, h|s|w, ry}
   const model = (id, x, y, z, o = {}) => { if (MQ) MQ.push({ id, x, y, z, ...o }); };
   function attachModels(host, list, it) {
     for (const q of list) loadModel(q.id).then(m => {
       if (!m || !host.parent) return; const inst = m.clone(true), sz = m.userData.size;
       const s = q.h ? q.h / sz.y : q.w ? q.w / Math.max(sz.x, sz.z) : (q.s || 1); inst.scale.setScalar(s); inst.position.set(q.x, q.y, q.z); inst.rotation.y = q.ry || 0;
-      inst.traverse(o => { o.userData.shared = 1; if (it) o.userData.item = it; if (q.fixture != null) { o.userData.fixture = q.fixture; o.castShadow = false; } });
+      inst.traverse(o => { o.userData.shared = 1; if (it) o.userData.item = it; if (q.fixture != null) { o.userData.fixture = q.fixture; o.castShadow = false; }
+        if (q.sub) { o.userData.sub = q.sub; o.userData.subRoot = inst; if (o.isMesh && /pillow/i.test(o.material.name)) { if (!M.chair) { M.chair = o.material.clone(); M.chairMap = M.chair.map; M.chairRough = M.chair.roughness; applyChair(); } o.material = M.chair; } } });
       host.add(inst); if (it) { host.updateMatrixWorld(true); it.box.setFromObject(host); } shadowsDirty(); kick(); });
   }
   const blobTex = CT(128, 1, (g, s) => { const gr = g.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2); gr.addColorStop(0, 'rgba(0,0,0,.5)'); gr.addColorStop(.55, 'rgba(0,0,0,.22)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, s, s); }, false);
@@ -233,7 +238,7 @@ export function createInterior(renderer) {
   const union = l => { l.sort((a, b) => a[0] - b[0]); const o = []; for (const s of l) { const t = o[o.length - 1]; if (t && s[0] <= t[1] + 1e-3) t[1] = Math.max(t[1], s[1]); else o.push([...s]); } return o; };
   const cutOut = (segs, holes) => { let out = segs; for (const [a, b] of holes) { const n = []; for (const [s, e] of out) { if (b <= s + 1e-4 || a >= e - 1e-4) n.push([s, e]); else { if (a > s) n.push([s, a]); if (b < e) n.push([b, e]); } } out = n; } return out.filter(([s, e]) => e - s > .02); };
 
-  function applyStyle(name) { const s = STYLES[name]; Object.assign(D, { style: name, floor: s.floor, tile: s.tile, wood: s.wood, fabric: s.fabric, fronts: s.fronts, worktop: s.worktop, metal: s.metal, sofa: s.sofa, table: s.table, rug: s.rug });
+  function applyStyle(name) { const s = STYLES[name]; Object.assign(D, { style: name, floor: s.floor, tile: s.tile, wood: s.wood, fabric: s.fabric, fronts: s.fronts, worktop: s.worktop, metal: s.metal, sofa: s.sofa, table: s.table, rug: s.rug, chair: s.chair });
     D.paint = rooms.map(() => s.paint); D.light = rooms.map(r => r.wet || r.key === 'hall' ? 'spots' : s.light); }
 
   /* ---------------- shell: walls, floors, ceilings, windows, doors ---------------- */
@@ -385,7 +390,7 @@ export function createInterior(renderer) {
       // throw over one arm
       let chairSide = 0; // lounge chair angled toward the coffee table, on whichever side has room
       for (const sd of [1, -1]) { const ax = sd * (W / 2 + .6), az = .3;
-        if ([[0, 0], [sd * .38, -.32], [-sd * .3, .45], [sd * .35, .42], [0, -.4]].every(([a, b]) => x.fits(ax + a, az + b, .06))) { model('modern_arm_chair_01', ax, 0, az, { h: .84, ry: -sd * .95 }); x.block(ax, az, .8, .8); g.add(at(blobM(1, 1), ax, .0135, az)); chairSide = sd; break; } }
+        if ([[0, 0], [sd * .38, -.32], [-sd * .3, .45], [sd * .35, .42], [0, -.4]].every(([a, b]) => x.fits(ax + a, az + b, .06))) { model('modern_arm_chair_01', ax, 0, az, { h: .84, ry: -sd * .95, sub: 'armchair' }); x.block(ax, az, .8, .8); g.add(at(blobM(1, 1), ax, .0135, az)); chairSide = sd; break; } }
       if (!chairSide && x.fits(-W / 2 - .28, -Dp / 2 + .3, .05)) model('wicker_basket_02', -W / 2 - .26, 0, -Dp / 2 + .3, { h: .24, ry: .4 });
       if (chairSide !== 1 && x.fits(W / 2 + .32, -Dp / 2 + .25)) { // arc floor lamp
         const lx = W / 2 + .32, lz = -Dp / 2 + .25; g.add(at(cyl(.17, .18, .03, M.ceramic, 32), lx, .015, lz)); g.add(at(cyl(.011, .011, 1.6, M.metal, 10), lx, .83, lz));
@@ -424,7 +429,7 @@ export function createInterior(renderer) {
     ctable(W, Dp) {
       const g = new THREE.Group(), L = W, Dd = Dp, H = .38;
       g.add(at(B(L, .035, Dd, M.woodH, .03), 0, H - .018, 0)); g.add(at(B(L - .16, .022, Dd - .14, M.woodH, .01), 0, .1, 0)); legs4(g, L / 2 - .09, Dd / 2 - .08, H - .035, .05, .04, .02);
-      model('wooden_bowl_01', L * .2, H, -.05, { w: .3 }); model('ceramic_vase_03', L * .36, H, .08, { h: .3 });
+      { const bowl = lathe([[0, 0], [.06, 0], [.11, .04], [.12, .07], [.115, .07], [.1, .045], [0, .02]], M.ceramic, 40); at(bowl, L * .2, H, -.05); g.add(bowl); } model('ceramic_vase_01', L * .36, H, .08, { h: .27 });
       M.book.slice(0, 3).forEach((m, i) => g.add(at(B(.24 - i * .02, .025, .17 - i * .01, m, .003), -L * .22, H + .013 + i * .026, .02, .12 * i - .1)));
       return g;
     },
@@ -476,7 +481,7 @@ export function createInterior(renderer) {
       if (o.decor) { const free = [...Array(n).keys()].find(k => k !== kc && k !== ks); if (free != null) { const cx = x0 + mw * (free + .5);
         g.add(at(B(.38, .022, .26, M.woodH, .02), cx - .05, .9 + .011, zb + .2, .15));
         for (let i = 0; i < 3; i++) g.add(at(cyl(.045, .045, .1 + i * .04, M.ceramic, 20), cx + .1 + i * .06 - .1, .89 + .05 + i * .02, zb + .07));
-        model('wooden_bowl_01', cx + .16, .89, zb + .3, { w: .3 });
+        { const bw = lathe([[0, 0], [.07, 0], [.12, .05], [.13, .08], [.125, .08], [.11, .055], [0, .02]], M.ceramic, 40); at(bw, cx + .16, .89, zb + .3); g.add(bw); }
         for (let i = 0; i < 4; i++) g.add(at(mesh(new THREE.SphereGeometry(.035, 16, 12), M.fruit[i % 3]), cx + .16 + Math.cos(i * 1.7) * .05, .95 + (i > 2 ? .03 : 0), zb + .3 + Math.sin(i * 1.7) * .05)); } }
       return g;
     },
@@ -701,7 +706,7 @@ export function createInterior(renderer) {
 
   /* ---------------- design changes ---------------- */
   async function set(key, val, room) {
-    if (key === 'style') { applyStyle(val); await applyMaterials(); items.forEach(makeItem); makeFixtures(); }
+    if (key === 'style') { applyStyle(val); await applyMaterials(); applyChair(); items.forEach(makeItem); makeFixtures(); }
     else if (key === 'paint') { if (room == null) D.paint = D.paint.map((v, i) => rooms[i].wet ? v : val); else D.paint[room] = val; await applyMaterials(); }
     else if (key === 'light') { if (room == null) { D.light = D.light.map((v, i) => rooms[i].wet || rooms[i].key === 'hall' ? v : val); makeFixtures(); } else { D.light[room] = val; makeFixtures(room); } }
     else if (key === 'evening') setEvening(val);
@@ -709,6 +714,7 @@ export function createInterior(renderer) {
     else { D[key] = val;
       if (key === 'sofa' || key === 'table' || key === 'rug') items.filter(i => i.kind === key).forEach(makeItem);
       else if (key === 'wet') items.filter(i => i.kind === 'bath').forEach(makeItem);
+      else if (key === 'chair') applyChair();
       else await applyMaterials(); }
     if (key === 'style' || key === 'sofa' || key === 'table' || key === 'furnish' || key === 'wet') buildDoors();
     if (sel) highlight(sel); shadowsDirty(); kick();
@@ -818,6 +824,7 @@ export function createInterior(renderer) {
     const objs = []; scene.traverse(o => { if (o.isMesh && o.visible && !o.material.transparent && o !== backdrop && !(mode === 'orbit' && o.material === M.ceil) && o.parent?.visible !== false) objs.push(o); });
     const hit = ray.intersectObjects(objs, false)[0]; if (!hit) return;
     const o = hit.object, n = hit.face ? hit.face.normal.clone().transformDirection(o.matrixWorld) : new THREE.Vector3(0, 1, 0), room = roomAt(hit.point.x, hit.point.z);
+    if (o.userData.sub) { select({ type: 'item', item: o.userData.item, cat: o.userData.sub, sub: o.userData.subRoot, room: o.userData.item?.room }); return; }
     if (o.userData.item) { select({ type: 'item', item: o.userData.item, cat: o.userData.item.kind, room: o.userData.item.room }); return; }
     if (o.userData.fixture != null) { select({ type: 'light', room: o.userData.fixture }); return; }
     if (o.material === M.ceil) { if (room) select({ type: 'light', room: room.i }); return; }
@@ -827,7 +834,9 @@ export function createInterior(renderer) {
     if (room) select({ type: 'wall', room: room.i, wet: room.wet });
   }
   function highlight(s) { if (helper) { scene.remove(helper); helper.geometry.dispose(); helper = null; }
-    if (s?.type === 'item') { s.item.box.setFromObject(s.item.group); helper = new THREE.Box3Helper(s.item.box.clone().expandByScalar(.02), 0xc2502a); scene.add(helper); } needs = true; }
+    if (s?.type === 'item') { const bx = new THREE.Box3();
+      if (s.sub) bx.setFromObject(s.sub); else s.item.group.traverse(o => { if (o.isMesh && !o.userData.sub && o.material !== M.blob && !o.userData.deco) bx.expandByObject(o); });
+      if (bx.isEmpty()) bx.setFromObject(s.item.group); helper = new THREE.Box3Helper(bx.expandByScalar(.02), 0xc2502a); scene.add(helper); } needs = true; }
   function select(s) { sel = s; highlight(s); onSelect && onSelect(s); kick(); }
   function clearSel() { sel = null; highlight(null); }
 

@@ -1,6 +1,8 @@
 // Vėjo laiptai — page logic (EN / LT)
 import { UNITS, byId } from './data.js';
 import { t, eur, DL } from './i18n.js';
+import { planSVG, roomsOf } from './plans.js';
+import { PLANS, TYPES } from './data.js';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const TOUCH = document.documentElement.classList.contains('touch');
@@ -77,6 +79,7 @@ function fillUnit(u) {
   $('[data-u-ppm]').textContent = eur(u.ppm); $('[data-u-price]').textContent = u.status === 'sold' ? t('st_sold') : eur(u.price);
   $('[data-u-month]').textContent = u.status === 'sold' ? t('sold_note') : t('month_note', { m: eur(monthly(u.price, 20, 30, 3.75)) });
   $('[data-u-plan]').textContent = t('u_plan');
+  const lay = $('[data-u-layout]'); if (lay) { lay.innerHTML = planSVG(u.type, { labels: false, dims: false }) + `<span class="mono">${t('u_layout')}</span>`; lay.dataset.type = u.type; }
 }
 function choose(u, fromList) {
   sel = u.id; fillUnit(u); card.hidden = false; E && (E.select(u.id), E.focusUnit(u));
@@ -173,3 +176,33 @@ const io2 = new IntersectionObserver(es => { es.forEach(e => vis.set(e.target, e
 [$('.hero'), $('#apartments'), $('#visit')].forEach(el => io2.observe(el));
 
 rows();
+
+/* ---------- layouts ---------- */
+const plBox = $('[data-plbox]');
+function openPlan(type) { $('[data-plbox-in]').innerHTML = `<p class="mono">${t('type_' + type)} · ${TYPES[type].area} m²</p>` + planSVG(type); plBox.hidden = false; requestAnimationFrame(() => plBox.classList.add('on')); document.body.style.overflow = 'hidden'; $('[data-plbox-x]').focus(); }
+function closePlan() { plBox.classList.remove('on'); document.body.style.overflow = ''; setTimeout(() => { plBox.hidden = true; }, 220); }
+$('[data-plbox-x]').addEventListener('click', closePlan); plBox.addEventListener('click', e => { if (e.target === plBox) closePlan(); });
+addEventListener('keydown', e => { if (e.key === 'Escape' && !plBox.hidden) closePlan(); });
+$('[data-u-layout]')?.addEventListener('click', e => openPlan(e.currentTarget.dataset.type));
+const PT = ['S1', 'T2', 'T3', 'P4']; let plType = 'T3';
+const tabs = $('[data-pl-tabs]');
+tabs.innerHTML = PT.map(k => `<button type="button" role="tab" data-pl="${k}" aria-selected="${k === plType}">${t('type_' + k)}</button>`).join('');
+function renderPlan() {
+  const T = TYPES[plType], P = PLANS[plType], { groups } = roomsOf(plType), fr = UNITS.filter(u => u.type === plType && u.status === 'free'), from = fr.length ? Math.min(...fr.map(u => u.price)) : 0;
+  const outA = T.terrace || (plType === 'S1' ? 0 : plType === 'T3' ? 8.4 : 6.1);
+  $('[data-pl-fig]').innerHTML = planSVG(plType) + `<span class="plans__zoom mono">${t('pl_zoom')}</span>`;
+  $('[data-pl-info]').innerHTML = `<p class="plans__area"><b>${T.area}</b> m²<span>${t('pl_total')}${outA ? ` · +${outA} m² ${t(T.terrace ? 'pl_terrace' : 'pl_balcony').toLowerCase()}` : ''}</span></p>
+    <p class="mono plans__t">${t('pl_net')}</p>
+    <ul class="plans__rooms">${groups.map(g => `<li><span>${t('room_' + g.key)}</span><b>${(Math.round(g.net * 10) / 10).toFixed(1)} m²</b></li>`).join('')}</ul>
+    <p class="small muted">${t('pl_dims', { w: P.W.toFixed(1), d: P.D.toFixed(1) })}</p>
+    <p class="plans__free">${fr.length ? t('pl_free', { n: fr.length, p: eur(from) }) : t('pl_none')}</p>
+    <div class="row"><button type="button" class="btn btn--sm" data-pl-show>${t('pl_show')}</button><button type="button" class="btn btn--sm btn--ghost" data-pl-walk>${t('pl_walk')}</button></div>`;
+  $$('[data-pl]', tabs).forEach(b => b.setAttribute('aria-selected', b.dataset.pl === plType));
+}
+tabs.addEventListener('click', e => { const b = e.target.closest('[data-pl]'); if (!b) return; plType = b.dataset.pl; renderPlan(); });
+$('[data-pl-fig]').addEventListener('click', () => openPlan(plType));
+$('[data-pl-info]').addEventListener('click', e => {
+  if (e.target.closest('[data-pl-show]')) { const n = TYPES[plType].rooms; F.rooms = new Set([n]); $$('[data-filters] [data-rooms]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.rooms === n)); F.onlyFree = true; $('[data-onlyfree]').checked = true; rows(); $('#apartments').scrollIntoView({ behavior: 'smooth' }); }
+  if (e.target.closest('[data-pl-walk]')) { const u = UNITS.find(x => x.type === plType && x.status === 'free') || UNITS.find(x => x.type === plType); getStudio().then(s => s.open(u, 'walk')); }
+});
+renderPlan();
