@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vėjo laiptai — 42 new homes stepping down to the Neris, Vilnius</title>
+<meta name="description" content="A terraced residential building on Upės gatvė, Vilnius. 1–4 room apartments and penthouses, from €152,000. Choose your flat in 3D, see its light at any hour, and book a viewing.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Vėjo laiptai, Vilnius — choose your apartment in 3D">
+<meta property="og:description" content="42 homes stepping down to the Neris. 1–4 rooms, from €152,000. Keys Q4 2027.">
+<meta property="og:image" content="https://futuretdj.github.io/vejo-laiptai/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#ecebe6">
+<link rel="preload" href="fonts/archivo-400-800-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/ibmplexsans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="img/hero-m.webp" media="(max-width: 700px)">
+<link rel="preload" as="image" imagesrcset="img/hero-1200.webp 1200w, img/hero-1800.webp 1800w" imagesizes="100vw" media="(min-width: 701px)">
+<script type="importmap">{"imports":{"three":"./lib/three.module.min.js"}}</script>
+<script>(function(){var d=document.documentElement;if(matchMedia('(max-width: 1023px), (pointer: coarse)').matches)d.classList.add('touch');d.classList.add('js')})()</script>
+<link rel="stylesheet" href="vejo.css">
+</head>
+<body>
+<header class="nav" data-nav>
+  <div class="wrap nav__bar">
+    <a class="logo" href="#top" aria-label="Vėjo laiptai, home"><svg viewBox="0 0 40 28" aria-hidden="true"><path d="M2 26V8h10v-6h12v10h14v14z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg><span>Vėjo laiptai</span></a>
+    <nav class="nav__links" aria-label="Main"><a href="#apartments">Apartments</a><a href="#inside">Inside</a><a href="#location">Location</a><a href="#price">Price &amp; mortgage</a><a href="#progress">Progress</a></nav>
+    <a class="btn btn--sm nav__cta" href="#visit">Book a viewing</a>
+    <button class="nav__menu" type="button" aria-expanded="false" aria-controls="sheet" data-menu>Menu</button>
+  </div>
+  <div class="sheet" id="sheet" data-sheet><a href="#apartments">Apartments</a><a href="#inside">Inside</a><a href="#location">Location</a><a href="#price">Price &amp; mortgage</a><a href="#progress">Progress</a><a href="#visit">Book a viewing</a></div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <picture class="hero__img">
+      <source media="(max-width: 700px)" srcset="img/hero-m.webp">
+      <img src="img/hero-1800.webp" srcset="img/hero-1200.webp 1200w, img/hero-1800.webp 1800w" sizes="100vw" alt="Vilnius and the river Neris at sunset, seen from above the right bank" fetchpriority="high" decoding="async">
+    </picture>
+    <div class="wrap hero__in">
+      <p class="tag mono">Upės gatvė · Šnipiškės · Vilnius</p>
+      <h1>42 homes stepping down <span>to the Neris.</span></h1>
+      <p class="lead">Three brick volumes of eight, six and four storeys, so most flats get a terrace on the roof of the one below and the evening sun over the river.</p>
+      <div class="row"><a class="btn" href="#apartments">Choose an apartment</a><a class="btn btn--ghost" href="#visit">Book a viewing</a></div>
+    </div>
+    <dl class="facts wrap">
+      <div><dt>Apartments</dt><dd data-count-free>— free of 42</dd></div>
+      <div><dt>Rooms</dt><dd>1–4 + penthouses</dd></div>
+      <div><dt>From</dt><dd data-from>€—</dd></div>
+      <div><dt>Keys</dt><dd>Q4 2027</dd></div>
+      <div><dt>Energy class</dt><dd>A++</dd></div>
+    </dl>
+  </section>
+
+  <!-- apartments selector -->
+  <section class="sec sec--apt" id="apartments" aria-labelledby="ap-h">
+    <div class="wrap head">
+      <p class="label mono">Apartments</p>
+      <h2 id="ap-h">Pick a window. <em>It's yours to look through.</em></h2>
+      <p>Tap any apartment on the building to see its layout, terrace and price. Green is free, amber is reserved. Drag sideways to walk around the building.</p>
+    </div>
+    <div class="wrap apt">
+      <div class="stage" data-stage>
+        <div class="stage__load mono" data-stage-load>Building the model…</div>
+        <div class="legend mono"><span><i class="free"></i>Free</span><span><i class="reserved"></i>Reserved</span><span><i class="sold"></i>Sold</span></div>
+        <div class="tip mono" data-tip hidden></div>
+        <div class="light" data-light>
+          <div class="light__top"><p class="mono">Light <b data-light-time>17:30</b> <span data-light-sun></span></p>
+            <div class="seg seg--sm" role="radiogroup" aria-label="Season"><label><input type="radio" name="season" value="jun" checked><span>June</span></label><label><input type="radio" name="season" value="mar"><span>March</span></label><label><input type="radio" name="season" value="dec"><span>Dec</span></label></div></div>
+          <input type="range" min="5" max="23.5" step=".25" value="17.5" aria-label="Time of day" data-light-range>
+        </div>
+        <aside class="unit" data-unit hidden aria-live="polite">
+          <button type="button" class="unit__x" data-unit-close aria-label="Close">×</button>
+          <p class="mono unit__st" data-u-status></p>
+          <h3 data-u-title></h3>
+          <p class="unit__sub" data-u-sub></p>
+          <dl class="unit__dl">
+            <div><dt>Area</dt><dd data-u-area></dd></div><div><dt>Outdoor</dt><dd data-u-terr></dd></div>
+            <div><dt>Floor</dt><dd data-u-floor></dd></div><div><dt>Faces</dt><dd data-u-or></dd></div>
+            <div><dt>Direct sun</dt><dd data-u-sunh></dd></div><div><dt>Per m²</dt><dd data-u-ppm></dd></div>
+          </dl>
+          <p class="unit__price" data-u-price></p>
+          <p class="small muted" data-u-month></p>
+          <div class="row"><button class="btn" type="button" data-u-plan>See it in 3D</button><button class="btn btn--ghost" type="button" data-u-visit>Book a viewing</button></div>
+        </aside>
+      </div>
+      <div class="list">
+        <div class="filters" data-filters>
+          <div class="seg" role="group" aria-label="Rooms"><button type="button" aria-pressed="false" data-rooms="1">1</button><button type="button" aria-pressed="false" data-rooms="2">2</button><button type="button" aria-pressed="false" data-rooms="3">3</button><button type="button" aria-pressed="false" data-rooms="4">4</button></div>
+          <label class="maxp"><span class="mono">Up to <b data-maxp-out>any price</b></span><input type="range" min="150000" max="560000" step="10000" value="560000" data-maxp aria-label="Maximum price"></label>
+          <label class="check"><input type="checkbox" data-onlyfree checked> Free only</label>
+        </div>
+        <p class="mono muted count" data-count></p>
+        <div class="tbl" role="table" aria-label="Apartments">
+          <div class="tr th" role="row"><span role="columnheader">No.</span><span role="columnheader">Rooms</span><span role="columnheader">m²</span><span role="columnheader">Floor</span><span role="columnheader">Price</span></div>
+          <div data-rows></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- inside -->
+  <section class="sec" id="inside" aria-labelledby="in-h">
+    <div class="wrap head"><p class="label mono">Inside</p><h2 id="in-h">2.85 m ceilings, oak floors, <em>windows to the floor.</em></h2><p>Every flat is handed over finished. Choose one of two palettes before the plaster goes on, or keep the shell and do it yourself for €210 less per m².</p></div>
+    <div class="wrap finish">
+      <div class="finish__tabs" role="tablist" aria-label="Finish palettes">
+        <button role="tab" aria-selected="true" data-pal="smelis"><b>Smėlis</b><span>Sand: white oak, warm plaster, brushed brass</span></button>
+        <button role="tab" aria-selected="false" data-pal="akmuo"><b>Akmuo</b><span>Stone: smoked oak, grey limestone, black steel</span></button>
+      </div>
+      <ul class="gal" data-swipe data-gallery>
+        <li><button type="button" data-open="0"><img src="img/living-800.webp" srcset="img/living-800.webp 800w, img/living-1600.webp 1024w" sizes="(max-width: 1023px) 80vw, 40vw" alt="Bright living room with floor-to-ceiling windows" loading="lazy" decoding="async"></button><p class="mono">Living room, 3-room flat</p></li>
+        <li><button type="button" data-open="1"><img src="img/kitchen2-800.webp" srcset="img/kitchen2-800.webp 800w, img/kitchen2-1600.webp 1024w" sizes="(max-width: 1023px) 80vw, 30vw" alt="White kitchen with island" loading="lazy" decoding="async"></button><p class="mono">Kitchen with island</p></li>
+        <li><button type="button" data-open="2"><img src="img/bedroom2-800.webp" srcset="img/bedroom2-800.webp 800w, img/bedroom2-1600.webp 960w" sizes="(max-width: 1023px) 80vw, 30vw" alt="Light bedroom with wooden floor" loading="lazy" decoding="async"></button><p class="mono">Bedroom</p></li>
+        <li><button type="button" data-open="3"><img src="img/bath-800.webp" srcset="img/bath-800.webp 800w, img/bath-1600.webp 1024w" sizes="(max-width: 1023px) 80vw, 30vw" alt="Bathroom with tub and heated towel rail" loading="lazy" decoding="async"></button><p class="mono">Bathroom</p></li>
+        <li><button type="button" data-open="4"><img src="img/living2-800.webp" srcset="img/living2-800.webp 800w, img/living2-1600.webp 960w" sizes="(max-width: 1023px) 80vw, 30vw" alt="Living room with sofa and armchairs" loading="lazy" decoding="async"></button><p class="mono">Penthouse lounge</p></li>
+      </ul>
+      <div class="dots" data-dots-for="gal"></div>
+      <ul class="spec" data-spec></ul>
+    </div>
+  </section>
+
+  <!-- location -->
+  <section class="sec sec--dark" id="location" aria-labelledby="lo-h">
+    <div class="wrap head"><p class="label mono">Location</p><h2 id="lo-h">The river in front, <em>the Old Town a bridge away.</em></h2><p>Upės gatvė runs along the right bank of the Neris, between the business towers and Žvėrynas. Everything below is timed on foot or by bike from the front door.</p></div>
+    <div class="wrap loc">
+      <ul class="times" data-times>
+        <li data-mode="walk"><b>2 min</b><span>Neris riverside path</span></li>
+        <li data-mode="walk"><b>9 min</b><span>White Bridge &amp; park</span></li>
+        <li data-mode="walk"><b>14 min</b><span>Cathedral Square</span></li>
+        <li data-mode="walk"><b>6 min</b><span>Primary school &amp; nursery</span></li>
+        <li data-mode="walk"><b>4 min</b><span>Rimi, pharmacy, bakery</span></li>
+        <li data-mode="bike"><b>11 min</b><span>Vilnius University</span></li>
+        <li data-mode="car"><b>18 min</b><span>Airport</span></li>
+        <li data-mode="walk"><b>3 min</b><span>Bus &amp; trolleybus stop</span></li>
+      </ul>
+      <div class="loc__pics" data-swipe>
+        <figure><img src="img/evening-800.webp" srcset="img/evening-800.webp 800w, img/evening-1600.webp 1600w" sizes="(max-width: 1023px) 80vw, 33vw" alt="Vilnius and the Neris at sunset" loading="lazy" decoding="async"><figcaption class="mono">Evening over the Neris</figcaption></figure>
+        <figure><img src="img/oldtown-800.webp" srcset="img/oldtown-800.webp 800w, img/oldtown-1600.webp 1600w" sizes="(max-width: 1023px) 80vw, 33vw" alt="Red roofs of Vilnius Old Town" loading="lazy" decoding="async"><figcaption class="mono">Old Town, 14 min walk</figcaption></figure>
+        <figure><img src="img/embankment-800.webp" srcset="img/embankment-800.webp 800w, img/embankment-1600.webp 1600w" sizes="(max-width: 1023px) 80vw, 33vw" alt="Riverside path along the Neris" loading="lazy" decoding="async"><figcaption class="mono">The riverside path</figcaption></figure>
+      </div>
+      <div class="dots dots--light" data-dots-for="loc"></div>
+    </div>
+  </section>
+
+  <!-- price -->
+  <section class="sec" id="price" aria-labelledby="pr-h">
+    <div class="wrap grid2">
+      <div>
+        <div class="head"><p class="label mono">Price &amp; mortgage</p><h2 id="pr-h">What it costs <em>each month.</em></h2><p>A rough estimate with today's Euribor and a typical bank margin. The bank decides the final rate; our sales team can introduce you to three that already know the project.</p></div>
+        <ol class="pay">
+          <li><b>€3,000</b><span>Reservation, holds the flat for 30 days</span></li>
+          <li><b>10%</b><span>On signing the preliminary contract</span></li>
+          <li><b>90%</b><span>At the notary when you get the keys, Q4 2027</span></li>
+        </ol>
+      </div>
+      <form class="calc" data-calc onsubmit="return false">
+        <p class="mono muted" data-calc-for>For a typical 2-room flat</p>
+        <div class="calc__row"><label for="c-price">Price</label><output data-o-price></output><input id="c-price" type="range" min="140000" max="560000" step="1000" value="198000"></div>
+        <div class="calc__row"><label for="c-down">Down payment</label><output data-o-down></output><input id="c-down" type="range" min="15" max="60" step="1" value="20"></div>
+        <div class="calc__row"><label for="c-years">Term</label><output data-o-years></output><input id="c-years" type="range" min="10" max="35" step="1" value="30"></div>
+        <div class="calc__row"><label for="c-rate">Interest (Euribor + margin)</label><output data-o-rate></output><input id="c-rate" type="range" min="2" max="6" step=".05" value="3.75"></div>
+        <div class="calc__out"><p class="mono">Monthly payment</p><p class="big" data-o-month>€—</p><p class="small muted" data-o-note></p></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- progress -->
+  <section class="sec sec--stone" id="progress" aria-labelledby="pg-h">
+    <div class="wrap head"><p class="label mono">Construction</p><h2 id="pg-h">Where we are <em>this month.</em></h2><p>Updated on the first Monday of every month with photos from the site camera.</p></div>
+    <div class="wrap">
+      <ol class="steps" data-steps>
+        <li class="done"><b>Permit</b><span>Mar 2025</span></li>
+        <li class="done"><b>Foundations</b><span>Sep 2025</span></li>
+        <li class="done"><b>Frame A &amp; B</b><span>Jun 2026</span></li>
+        <li class="now"><b>Frame C, roofs</b><span>Nov 2026</span><i style="--p:70%"></i></li>
+        <li><b>Facade &amp; windows</b><span>Apr 2027</span></li>
+        <li><b>Interiors</b><span>Sep 2027</span></li>
+        <li><b>Keys</b><span>Q4 2027</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- visit -->
+  <section class="sec" id="visit" aria-labelledby="vs-h">
+    <div class="wrap grid2">
+      <div>
+        <div class="head"><p class="label mono">Visit</p><h2 id="vs-h">See the show flat <em>and the view.</em></h2><p>The sales pavilion on site has a finished 3-room flat in both palettes and a lift to the roof of block C. Saturdays and Sundays 11–17, weekdays by appointment.</p></div>
+        <dl class="contact">
+          <div><dt class="mono">Sales pavilion</dt><dd>Upės g. 21, Vilnius</dd></div>
+          <div><dt class="mono">Phone</dt><dd><a href="tel:+37060000000">+370 600 00000</a></dd></div>
+          <div><dt class="mono">Email</dt><dd><a href="mailto:sales@vejo.example">sales@vejo.example</a></dd></div>
+        </dl>
+      </div>
+      <form class="vform" data-vform novalidate>
+        <p class="mono muted">Choose a time</p>
+        <div class="vdays" data-vdays></div>
+        <div class="vslots" data-vslots></div>
+        <div class="f"><label for="v-unit">Apartment you're interested in <span class="muted">(optional)</span></label><select id="v-unit" data-vunit><option value="">Not sure yet</option></select></div>
+        <div class="f2"><div class="f"><label for="v-name">Name</label><input id="v-name" name="name" autocomplete="name" required><p class="err" hidden>Write your name.</p></div>
+        <div class="f"><label for="v-tel">Phone</label><input id="v-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" required placeholder="+370"><p class="err" hidden>Write a phone number.</p></div></div>
+        <button class="btn btn--wide" type="submit" data-vsubmit>Book the viewing</button>
+        <p class="small" role="status" data-vstatus></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-labelledby="fq-h">
+    <div class="wrap grid2">
+      <h2 id="fq-h" class="fq">Questions <em>people ask first.</em></h2>
+      <div class="faq">
+        <details><summary>Is parking included?</summary><p>No, underground spaces are sold separately for €19,000, with an EV charger for €900 more. There are 46 spaces for 42 flats, and storage rooms in the basement from €3,500.</p></details>
+        <details><summary>What does A++ mean for my bills?</summary><p>Air-to-water heat pumps, underfloor heating, heat-recovery ventilation and triple glazing. A 2-room flat is expected to cost around €35–45 a month to heat in January.</p></details>
+        <details><summary>Can I change the layout?</summary><p>Until the walls go up on your floor, yes: moving or removing non-structural walls is free once and €450 per later change. Kitchens and bathrooms stay where the risers are.</p></details>
+        <details><summary>What if construction is late?</summary><p>The contract fixes a hand-over date. For each month of delay you are paid 0.5% of what you have already paid, and after six months you can cancel and get everything back.</p></details>
+        <details><summary>Who is the developer?</summary><p>A concept: this site is a portfolio demonstration. The building, prices and people are invented.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <p class="foot__logo">Vėjo laiptai</p>
+    <p>Upės g. 21, Vilnius · <a href="tel:+37060000000">+370 600 00000</a> · <a href="mailto:sales@vejo.example">sales@vejo.example</a></p>
+    <p class="mono muted">Opening photograph: Vilnius at sunset, Wikimedia Commons. A concept site. Photographs from Wikimedia Commons and rawpixel (<a href="credits.html">credits</a>). The 3D model is drawn in the browser.</p>
+  </div>
+</footer>
+
+<nav class="bar" data-bar aria-label="Quick actions"><span class="bar__t mono" data-bar-t>42 apartments</span><a class="btn btn--sm btn--light" href="#apartments" data-bar-btn>Choose</a></nav>
+
+<div class="plan" data-plan hidden role="dialog" aria-modal="true" aria-labelledby="pl-h">
+  <div class="plan__stage" data-plan-stage><div class="plan__labels" data-plan-labels></div></div>
+  <div class="plan__side">
+    <div class="plan__top"><div><p class="mono muted" data-pl-sub></p><h3 id="pl-h" data-pl-title></h3></div><button type="button" class="plan__x" data-plan-close aria-label="Close">×</button></div>
+    <ul class="rooms" data-pl-rooms></ul>
+    <div class="plan__ctl">
+      <label class="check"><input type="checkbox" data-pl-furn checked> Show furniture</label>
+      <div class="seg seg--sm" role="radiogroup" aria-label="View"><label><input type="radio" name="pv" value="3d" checked><span>3D</span></label><label><input type="radio" name="pv" value="top"><span>From above</span></label></div>
+    </div>
+    <p class="plan__price" data-pl-price></p>
+    <div class="row"><button class="btn" type="button" data-pl-visit>Book a viewing</button><button class="btn btn--ghost" type="button" data-pl-pdf>Download plan</button></div>
+  </div>
+</div>
+<div class="lb" data-lb hidden role="dialog" aria-modal="true" aria-label="Photos"><div class="lb__top"><span class="mono" data-lb-count></span><button type="button" class="lb__x" data-lb-close aria-label="Close">×</button></div><ul class="lb__track" data-lb-track></ul><p class="lb__cap" data-lb-cap></p></div>
+<div class="toast" data-toast role="status" aria-live="polite"></div>
+<script type="module" src="vejo.js"></script>
+</body>
+</html>
