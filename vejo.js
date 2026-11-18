@@ -45,15 +45,21 @@ $('[data-rows]').addEventListener('click', e => { const b = e.target.closest('[d
 
 /* ---------- 3D building ---------- */
 let E = null, bootP = null; const stage = $('[data-stage]');
+// the 3D building is built in small steps, each one waits until no finger is on the screen and scrolling has settled
+let touching = 0, lastScroll = 0;
+addEventListener('touchstart', () => { touching++; }, { passive: true, capture: true });
+const untouch = () => { touching = Math.max(0, touching - 1); lastScroll = performance.now(); };
+addEventListener('touchend', untouch, { passive: true, capture: true }); addEventListener('touchcancel', untouch, { passive: true, capture: true });
+addEventListener('scroll', () => { lastScroll = performance.now(); }, { passive: true });
+const gate = () => new Promise(res => { const chk = () => { const w = 260 - (performance.now() - lastScroll); if (touching || w > 0) setTimeout(chk, touching ? 120 : w + 10); else requestAnimationFrame(() => setTimeout(res, 0)); }; chk(); });
 function boot() { return bootP || (bootP = (async () => {
-  const { createEstate } = await import('./estate3d.js');
-  E = createEstate(); E.mount(stage, 'building'); E.overlays(true); E.filter(match);
+  await gate(); const { createEstate } = await import('./estate3d.js?v=20261118c');
+  await gate(); E = await createEstate({ pause: gate }); await gate(); await E.warm(); await gate(); E.mount(stage, 'building'); E.overlays(true); E.filter(match);
   E.onPick = u => choose(u, false);
   if (!TOUCH) E.onHover = (u, ev) => { const tip = $('[data-tip]'); if (!u) { tip.hidden = true; return; } const r = stage.getBoundingClientRect(); tip.hidden = false; tip.textContent = `${u.id} · ${tl(u)} · ${u.status === 'sold' ? t('sold_l') : eur(u.price)}`; tip.style.left = (ev.clientX - r.left) + 'px'; tip.style.top = (ev.clientY - r.top - 8) + 'px'; };
   setLight(); requestAnimationFrame(() => $('[data-stage-load]').classList.add('off')); window.__E = E; return E; })()); }
 // building the 3D scene takes a moment of main-thread work: never start it mid-swipe, wait for the scroll to settle
-let lastScroll = 0; addEventListener('scroll', () => { lastScroll = performance.now(); }, { passive: true });
-const bootIdle = () => { const wait = 220 - (performance.now() - lastScroll); if (wait > 0) setTimeout(bootIdle, wait); else boot(); };
+const bootIdle = () => boot();
 const bio = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { bio.disconnect(); bootIdle(); } }, { rootMargin: '900px' }); bio.observe(stage);
 addEventListener('load', () => (window.requestIdleCallback || (f => setTimeout(f, 600)))(bootIdle, { timeout: 1500 }), { once: true });
 setTimeout(bootIdle, 2500);
@@ -95,13 +101,13 @@ $('[data-u-visit]').addEventListener('click', () => { if (TOUCH) card.hidden = t
 /* ---------- design studio ---------- */
 // the studio (and its 3D interior engine) is only downloaded when someone opens it
 let studioP = null;
-const getStudio = () => studioP || (studioP = import('./studio.js').then(m => (window.__studio = m.initStudio({ getEstate: boot, toast,
+const getStudio = () => studioP || (studioP = import('./studio.js?v=20261118c').then(m => (window.__studio = m.initStudio({ getEstate: boot, toast,
   onBook: () => setTimeout(() => $('#visit').scrollIntoView({ behavior: 'smooth' }), 80),
   onClose: () => { if (E) { E.mount(stage, 'building'); setLight(); } } }))));
 $('[data-u-plan]').addEventListener('click', () => { const u = byId(sel); if (u) { if (TOUCH) card.hidden = true; getStudio().then(s => s.open(u, 'orbit')); } });
 const sample = () => UNITS.find(u => u.type === 'T3' && u.status === 'free' && u.terrace) || UNITS.find(u => u.status === 'free');
 $$('[data-open-studio]').forEach(b => b.addEventListener('click', () => getStudio().then(s => s.open(sel ? byId(sel) : sample(), b.dataset.openStudio || 'walk'))));
-$$('[data-open-studio], [data-u-plan]').forEach(b => b.addEventListener('pointerenter', getStudio, { once: true }));
+if (!TOUCH) $$('[data-open-studio], [data-u-plan]').forEach(b => b.addEventListener('pointerenter', getStudio, { once: true }));
 
 /* ---------- inside ---------- */
 const fin = $('.finish');

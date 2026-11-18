@@ -503,3 +503,14 @@ button.tr[aria-current="true"]{background:var(--ink);color:var(--paper)}
 .plbox__in>p{margin-bottom:10px;color:var(--muted)}
 .plbox__x{position:fixed;top:12px;right:12px;z-index:2;width:46px;height:46px;border-radius:50%;border:0;background:var(--paper);font-size:26px;line-height:1;cursor:pointer}
 @media (max-width:640px){.plbox{padding:0}.plbox__in{max-height:100dvh;height:100dvh;border-radius:0;padding:64px 10px 20px}.plbox__in .plan-svg{max-height:none}}
+
+/* studio sheet folding (phone) */
+.st-fold{display:none}
+@media (max-width:1023px){
+  .st-head{grid-template-columns:1fr auto auto;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:pan-x}
+  .st-fold{display:grid;place-items:center;order:3;width:40px;height:40px;align-self:center;border-radius:50%;border:1px solid var(--line2);background:transparent;cursor:pointer}
+  .st-fold::before{content:"";width:9px;height:9px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:translateY(-2px) rotate(45deg);transition:transform .25s}
+  .st-panel.min .st-fold::before{transform:translateY(2px) rotate(-135deg)}
+  .st-grab{top:0;height:22px;width:120px;padding:0}
+  .st-grab::before{margin:8px auto 0}
+}

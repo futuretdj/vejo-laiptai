@@ -17,7 +17,7 @@ const LOW = matchMedia('(max-width: 1023px), (pointer: coarse)').matches;
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const D2R = Math.PI / 180;
 
-export function createEstate() {
+export async function createEstate({ pause = () => new Promise(r => setTimeout(r, 0)) } = {}) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, LOW ? 1.5 : 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -25,7 +25,8 @@ export function createEstate() {
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; renderer.shadowMap.autoUpdate = false;
   const canvas = renderer.domElement; canvas.className = 'gl'; canvas.setAttribute('aria-hidden', 'true');
   const pmrem = new THREE.PMREMGenerator(renderer);
-  const envTex = pmrem.fromScene(new RoomEnvironment(), .04).texture;
+  await pause(); const envTex = pmrem.fromScene(new RoomEnvironment(), .04).texture;
+  await pause();
 
   /* ================= building scene ================= */
   const S = new THREE.Scene(); S.environment = envTex; S.environmentIntensity = .5;
@@ -59,6 +60,7 @@ export function createEstate() {
   const parts = {}; const add = (mat, g) => (parts[mat] = parts[mat] || []).push(g);
   const box = (mat, w, h, d, x, y, z) => { const g = new THREE.BoxGeometry(w, h, d); g.translate(x, y, z); add(mat, g); };
 
+  await pause();
   const FZ = DEPTH / 2; // front face z
   const rr2 = (() => { let s = 99; return () => ((s = (s * 16807) % 2147483647) / 2147483647); })();
   for (const v of VOLS) {
@@ -83,6 +85,7 @@ export function createEstate() {
     // roof terrace greenery on top
     for (let k = 0; k < 5; k++) box('green2', 1.2, .5, .8, v.x0 + 2 + k * 3.4, H + .5, FZ - 1);
   }
+  await pause();
   // front facade per unit
   for (const u of UNITS) {
     const y0 = u.floor * FH, x0 = u.x, w = u.w, cx = x0 + w / 2;
@@ -105,21 +108,24 @@ export function createEstate() {
   // right side of A and B: brick pier ends
   for (const v of VOLS) box('brick', .5, (v.floors - 1) * FH, .5, v.x0 + VW - .25, FH + (v.floors - 1) * FH / 2, FZ - .2);
 
+  await pause();
   // ground: grass, paving, paths, trees
   const g0 = new THREE.CircleGeometry(150, 48); g0.rotateX(-Math.PI / 2); add('grass', g0);
   box('paving', 64, .06, 10, 0, .03, FZ + 5.5); box('paving', 4, .06, 30, -18, .03, FZ + 20); box('paving', 4, .06, 30, 18, .03, FZ + 20);
   const rr = (() => { let s = 7; return () => ((s = (s * 16807) % 2147483647) / 2147483647); })();
   const tr = (x, z, s) => { const t = new THREE.CylinderGeometry(.18 * s, .25 * s, 2.6 * s, 6); t.translate(x, 1.3 * s, z); add('trunk', t);
     const mat = ['green', 'green2', 'green3'][Math.floor(rr() * 3)];
-    for (let b = 0; b < 5; b++) { const rad = (1.1 + rr() * .7) * s; const c = new THREE.IcosahedronGeometry(rad, 2); const p = c.attributes.position;
+    for (let b = 0; b < 5; b++) { const rad = (1.1 + rr() * .7) * s; const c = new THREE.IcosahedronGeometry(rad, LOW ? 1 : 2); const p = c.attributes.position;
       for (let i = 0; i < p.count; i++) { const k = 1 + (Math.sin(p.getX(i) * 3.1 + b) * Math.cos(p.getZ(i) * 2.7) * .12); p.setXYZ(i, p.getX(i) * k, p.getY(i) * k * .85, p.getZ(i) * k); }
       c.computeVertexNormals(); c.translate(x + (rr() - .5) * 2.2 * s, (3.2 + rr() * 1.8) * s, z + (rr() - .5) * 2.2 * s); add(mat, c); } };
   for (let i = 0; i < 26; i++) { const x = -60 + rr() * 120, z = FZ + 12 + rr() * 30; if (Math.abs(x) < 34 && z < FZ + 14) continue; tr(x, z, .8 + rr() * .6); }
   for (let i = 0; i < 18; i++) tr(-70 + rr() * 140, -FZ - 8 - rr() * 30, .9 + rr() * .7);
   for (let i = 0; i < 6; i++) tr(-40 + i * 16, FZ + 11, 1.15);
 
-  const bld = new THREE.Group();
+  await pause();
+  const bld = new THREE.Group(); let nMerged = 0;
   for (const [k, list] of Object.entries(parts)) {
+    if (++nMerged % 5 === 0) await pause();
     if (k === 'brick' || k === 'side') list.forEach(g => worldUV(g, .5));
     const mesh = new THREE.Mesh(mergeGeometries(list), M[k]);
     mesh.castShadow = !['grass', 'paving', 'rail'].includes(k); mesh.receiveShadow = k !== 'rail' && k !== 'glass' && k !== 'glassLit';
@@ -127,6 +133,7 @@ export function createEstate() {
   }
   S.add(bld);
 
+  await pause();
   // clickable overlays
   const COL = { free: 0x4f8a63, reserved: 0xd29a3a, sold: 0x8a8580, sel: 0xc2502a, match: 0x4f8a63 };
   const ovGroup = new THREE.Group(); S.add(ovGroup);
@@ -373,10 +380,11 @@ export function createEstate() {
 
   paintOverlays(); setSun(17.5, 'jun');
   // warm the shaders once the page is idle
-  (window.requestIdleCallback || (f => setTimeout(f, 400)))(() => { try { renderer.compile(S, cam); } catch {} });
+  // shaders: compile before the first visible frame (parallel where the browser supports it)
+  async function warm() { placeCam(); try { if (renderer.compileAsync) await renderer.compileAsync(S, cam); else renderer.compile(S, cam); } catch {} }
 
   return {
-    renderer, mount, kick, setSun, sunAt, sunHours, focusUnit, project, unitScreen, buildPlan,
+    renderer, mount, kick, warm, setSun, sunAt, sunHours, focusUnit, project, unitScreen, buildPlan,
     get mode() { return mode; },
     set onFrame(f) { onFrame = f; }, set onPick(f) { onPick = f; }, set onHover(f) { onHover = f; },
     overlays(on) { ovOn = on; paintOverlays(); },

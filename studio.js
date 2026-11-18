@@ -71,7 +71,17 @@ export function initStudio({ getEstate, toast, onBook, onClose }) {
   body.addEventListener('change', e => { if (e.target.matches('[data-furnish]')) { I.set('furnish', e.target.checked); total(); } });
   $('[data-st-sum]').addEventListener('click', () => { summary = true; panel.classList.remove('min'); render(); body.scrollTop = 0; });
   $('[data-st-book]').addEventListener('click', () => { close(); onBook && onBook(); });
-  $('[data-st-grab]').addEventListener('click', () => panel.classList.toggle('min'));
+  // phone sheet: tap the handle/arrow/header to fold, swipe it down to fold and up to open, touching the 3D view folds it too
+  const fold = on => { panel.classList.toggle('min', on); $('[data-st-fold]').setAttribute('aria-expanded', !on); };
+  $('[data-st-grab]').addEventListener('click', () => fold(!panel.classList.contains('min')));
+  $('[data-st-fold]').addEventListener('click', e => { e.stopPropagation(); fold(!panel.classList.contains('min')); });
+  const head = $('.st-head', panel); let sy = null, sx = 0;
+  head.addEventListener('click', e => { if (TOUCH && innerWidth < 1024 && !e.target.closest('button')) fold(!panel.classList.contains('min')); });
+  [head, tabsEl].forEach(el => {
+    el.addEventListener('touchstart', e => { sy = e.touches[0].clientY; sx = e.touches[0].clientX; }, { passive: true });
+    el.addEventListener('touchend', e => { if (sy == null) return; const t0 = e.changedTouches[0], dy = t0.clientY - sy, dx = t0.clientX - sx; sy = null;
+      if (Math.abs(dy) > 36 && Math.abs(dy) > Math.abs(dx) * 1.3) fold(dy > 0); }, { passive: true }); });
+  stage.addEventListener('pointerdown', () => { if (TOUCH && innerWidth < 1024 && !panel.classList.contains('min')) fold(true); });
   $$('[name=stmode]').forEach(r => r.addEventListener('change', () => setMode(r.value)));
   $$('[name=sttime]').forEach(r => r.addEventListener('change', async () => { await I.set('evening', r.value === 'eve'); render(); }));
   const syncTime = () => { $(`[name=sttime][value="${I.D.evening ? 'eve' : 'day'}"]`).checked = true; };
@@ -120,7 +130,7 @@ export function initStudio({ getEstate, toast, onBook, onClose }) {
     load.classList.remove('off'); E.mount(null, 'ext'); I.mount(stage);
     $('[data-st-title]').textContent = unit.id; $('[data-st-sub]').textContent = `${t('type_' + unit.type)} · ${unit.area} m²`;
     if (I.loaded !== unit) await I.load(unit);
-    if (TOUCH && innerWidth < 1024) panel.classList.add('min');
+    if (TOUCH && innerWidth < 1024) fold(true);
     tab = 'style'; summary = false; room = I.rooms.find(r => !r.wet && r.key !== 'hall')?.i ?? 0; render(); syncTime();
     if (mode === 'walk') I.teleport(room); setMode(mode);
     roomEl.textContent = ''; load.classList.add('off'); $('[data-st-close]').focus({ preventScroll: true });
