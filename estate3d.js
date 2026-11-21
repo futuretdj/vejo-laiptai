@@ -29,6 +29,7 @@ export async function createEstate({ pause = () => new Promise(r => setTimeout(r
   await pause();
 
   /* ================= building scene ================= */
+  await pause();
   const S = new THREE.Scene(); S.environment = envTex; S.environmentIntensity = .5;
   const SKY = new THREE.Color(0xdfe3e2); S.background = SKY; S.fog = new THREE.Fog(SKY, 110, 230);
   const cam = new THREE.PerspectiveCamera(30, 1, 1, 600);
@@ -38,6 +39,7 @@ export async function createEstate({ pause = () => new Promise(r => setTimeout(r
   sun.shadow.bias = -.0006; sun.shadow.normalBias = .06; S.add(sun, sun.target);
   const hemi = new THREE.HemisphereLight(0xdfe8f5, 0x8a8370, .55); S.add(hemi);
 
+  await pause();
   const M = {
     brick: new THREE.MeshStandardMaterial({ map: brickTex([26, 32, 66], 3), roughness: .92 }),
     slab: new THREE.MeshStandardMaterial({ color: 0xece7df, roughness: .8 }),
@@ -64,6 +66,7 @@ export async function createEstate({ pause = () => new Promise(r => setTimeout(r
   const FZ = DEPTH / 2; // front face z
   const rr2 = (() => { let s = 99; return () => ((s = (s * 16807) % 2147483647) / 2147483647); })();
   for (const v of VOLS) {
+    await pause();
     const H = v.floors * FH, cx = v.x0 + VW / 2;
     // core body slightly recessed so the facade elements read
     box('side', VW - .2, H, DEPTH - .6, cx, H / 2, -.3);
@@ -87,7 +90,9 @@ export async function createEstate({ pause = () => new Promise(r => setTimeout(r
   }
   await pause();
   // front facade per unit
+  let nU = 0;
   for (const u of UNITS) {
+    if (++nU % 8 === 0) await pause();
     const y0 = u.floor * FH, x0 = u.x, w = u.w, cx = x0 + w / 2;
     // brick piers at unit edges
     box('brick', .5, FH - .32, .5, x0 + .25, y0 + (FH - .32) / 2, FZ - .2);
@@ -118,14 +123,15 @@ export async function createEstate({ pause = () => new Promise(r => setTimeout(r
     for (let b = 0; b < 5; b++) { const rad = (1.1 + rr() * .7) * s; const c = new THREE.IcosahedronGeometry(rad, LOW ? 1 : 2); const p = c.attributes.position;
       for (let i = 0; i < p.count; i++) { const k = 1 + (Math.sin(p.getX(i) * 3.1 + b) * Math.cos(p.getZ(i) * 2.7) * .12); p.setXYZ(i, p.getX(i) * k, p.getY(i) * k * .85, p.getZ(i) * k); }
       c.computeVertexNormals(); c.translate(x + (rr() - .5) * 2.2 * s, (3.2 + rr() * 1.8) * s, z + (rr() - .5) * 2.2 * s); add(mat, c); } };
-  for (let i = 0; i < 26; i++) { const x = -60 + rr() * 120, z = FZ + 12 + rr() * 30; if (Math.abs(x) < 34 && z < FZ + 14) continue; tr(x, z, .8 + rr() * .6); }
+  for (let i = 0; i < 26; i++) { if (i % 7 === 6) await pause(); const x = -60 + rr() * 120, z = FZ + 12 + rr() * 30; if (Math.abs(x) < 34 && z < FZ + 14) continue; tr(x, z, .8 + rr() * .6); }
+  await pause();
   for (let i = 0; i < 18; i++) tr(-70 + rr() * 140, -FZ - 8 - rr() * 30, .9 + rr() * .7);
   for (let i = 0; i < 6; i++) tr(-40 + i * 16, FZ + 11, 1.15);
 
   await pause();
   const bld = new THREE.Group(); let nMerged = 0;
   for (const [k, list] of Object.entries(parts)) {
-    if (++nMerged % 5 === 0) await pause();
+    if (++nMerged % 3 === 0) await pause();
     if (k === 'brick' || k === 'side') list.forEach(g => worldUV(g, .5));
     const mesh = new THREE.Mesh(mergeGeometries(list), M[k]);
     mesh.castShadow = !['grass', 'paving', 'rail'].includes(k); mesh.receiveShadow = k !== 'rail' && k !== 'glass' && k !== 'glassLit';

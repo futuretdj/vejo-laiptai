@@ -17,8 +17,9 @@ const monthly = (P, down, yrs, rate) => { const Lm = P * (1 - down / 100), r = r
 const nav = $('[data-nav]'), mb = $('[data-menu]');
 mb.addEventListener('click', () => { const o = !nav.classList.contains('open'); nav.classList.toggle('open', o); mb.setAttribute('aria-expanded', o); mb.textContent = o ? mb.dataset.close : mb.dataset.open; });
 $$('[data-sheet] a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); mb.setAttribute('aria-expanded', false); mb.textContent = mb.dataset.open; }));
-let scs = null; const onS = () => { const s = scrollY > innerHeight * .75 - 70; if (s !== scs) { scs = s; nav.classList.toggle('sc', s); } };
-addEventListener('scroll', onS, { passive: true }); onS();
+// solid nav once the hero is mostly gone: watched by an observer, no layout reads on scroll
+const navSent = document.createElement('i'); navSent.setAttribute('aria-hidden', 'true'); navSent.style.cssText = 'position:absolute;left:0;top:calc(75svh - 70px);width:1px;height:1px;pointer-events:none';
+document.body.prepend(navSent); new IntersectionObserver(([e]) => nav.classList.toggle('sc', !e.isIntersecting && e.boundingClientRect.top < 0)).observe(navSent);
 
 /* ---------- facts ---------- */
 const free = UNITS.filter(u => u.status === 'free'), minP = Math.min(...free.map(u => u.price));
@@ -51,13 +52,18 @@ addEventListener('touchstart', () => { touching++; }, { passive: true, capture: 
 const untouch = () => { touching = Math.max(0, touching - 1); lastScroll = performance.now(); };
 addEventListener('touchend', untouch, { passive: true, capture: true }); addEventListener('touchcancel', untouch, { passive: true, capture: true });
 addEventListener('scroll', () => { lastScroll = performance.now(); }, { passive: true });
-const gate = () => new Promise(res => { const chk = () => { const w = 260 - (performance.now() - lastScroll); if (touching || w > 0) setTimeout(chk, touching ? 120 : w + 10); else requestAnimationFrame(() => setTimeout(res, 0)); }; chk(); });
+const gate = () => new Promise(res => { const chk = () => { const w = 450 - (performance.now() - lastScroll); if (touching || w > 0) setTimeout(chk, touching ? 120 : w + 10); else requestAnimationFrame(() => setTimeout(res, 0)); }; chk(); });
+// photos further down: fetch and decode them one by one while the page is at rest, so none is unpacked mid-swipe
+let pdDone = false;
+const rest = () => new Promise(res => { const chk = () => { const w = 1200 - (performance.now() - lastScroll); if (touching || w > 0) setTimeout(chk, touching ? 200 : w + 20); else (window.requestIdleCallback || setTimeout)(res); }; chk(); });
+async function predecode() { if (pdDone) return; pdDone = true;
+  for (const im of $$('img[loading=lazy]')) { if (im.closest('[data-lb]')) continue; await rest(); im.loading = 'eager'; try { await im.decode(); } catch {} } }
 function boot() { return bootP || (bootP = (async () => {
-  await gate(); const { createEstate } = await import('./estate3d.js?v=20261118c');
+  await gate(); const { createEstate } = await import('./estate3d.js?v=20261118d');
   await gate(); E = await createEstate({ pause: gate }); await gate(); await E.warm(); await gate(); E.mount(stage, 'building'); E.overlays(true); E.filter(match);
   E.onPick = u => choose(u, false);
   if (!TOUCH) E.onHover = (u, ev) => { const tip = $('[data-tip]'); if (!u) { tip.hidden = true; return; } const r = stage.getBoundingClientRect(); tip.hidden = false; tip.textContent = `${u.id} · ${tl(u)} · ${u.status === 'sold' ? t('sold_l') : eur(u.price)}`; tip.style.left = (ev.clientX - r.left) + 'px'; tip.style.top = (ev.clientY - r.top - 8) + 'px'; };
-  setLight(); requestAnimationFrame(() => $('[data-stage-load]').classList.add('off')); window.__E = E; return E; })()); }
+  setLight(); requestAnimationFrame(() => $('[data-stage-load]').classList.add('off')); window.__E = E; predecode(); return E; })()); }
 // building the 3D scene takes a moment of main-thread work: never start it mid-swipe, wait for the scroll to settle
 const bootIdle = () => boot();
 const bio = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { bio.disconnect(); bootIdle(); } }, { rootMargin: '900px' }); bio.observe(stage);

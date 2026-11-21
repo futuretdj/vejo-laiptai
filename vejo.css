@@ -514,3 +514,7 @@ button.tr[aria-current="true"]{background:var(--ink);color:var(--paper)}
   .st-grab{top:0;height:22px;width:120px;padding:0}
   .st-grab::before{margin:8px auto 0}
 }
+
+/* render only what is near the screen */
+#location,#price,#progress,#visit{content-visibility:auto;contain-intrinsic-size:auto 1250px}
+.plans__fig{contain:layout paint}
